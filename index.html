@@ -177,7 +177,6 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div onclick="showView('view-info')" class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between group">
                         <div>
-                            <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-xl flex items-center justify-center font-bold mb-4 group-hover:bg-brand-400 group-hover:text-gray-900 transition">B</div>
                             <h3 class="font-bold text-gray-900 text-lg mb-2">Bilgilendirme Rehberi</h3>
                             <p class="text-sm text-gray-600 mb-4">Üniversite, Bölüm ve Yurt rehberleri ile tercih döneminde ihtiyacın olan tüm detayları incele.</p>
                         </div>
@@ -186,7 +185,6 @@
 
                     <div onclick="showView('view-comments')" class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between group">
                         <div>
-                            <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-xl flex items-center justify-center font-bold mb-4 group-hover:bg-brand-400 group-hover:text-gray-900 transition">Y</div>
                             <h3 class="font-bold text-gray-900 text-lg mb-2">Üniversite Yorumları</h3>
                             <p class="text-sm text-gray-600 mb-4">Öğrencilerin gerçek deneyimlerini okuyun, fakülteler ve kampüsler hakkında bilgi sahibi olun.</p>
                         </div>
@@ -195,7 +193,6 @@
 
                     <div onclick="showView('view-forum')" class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between group">
                         <div>
-                            <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-xl flex items-center justify-center font-bold mb-4 group-hover:bg-brand-400 group-hover:text-gray-900 transition">F</div>
                             <h3 class="font-bold text-gray-900 text-lg mb-2">Adaylar Forumu</h3>
                             <p class="text-sm text-gray-600 mb-4">Aklına takılan soruları sor, üniversitelilerden doğrudan yanıt al, aktif tartışmalara katıl.</p>
                         </div>
@@ -204,7 +201,6 @@
 
                     <div onclick="showView('view-rankings')" class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between group">
                         <div>
-                            <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-xl flex items-center justify-center font-bold mb-4 group-hover:bg-brand-400 group-hover:text-gray-900 transition">S</div>
                             <h3 class="font-bold text-gray-900 text-lg mb-2">Sıralama Tablosu</h3>
                             <p class="text-sm text-gray-600 mb-4">Geçmiş yıllara ait taban başarı sıralamaları, kontenjanlar ve taban puan verilerini inceleyin.</p>
                         </div>
@@ -227,6 +223,24 @@
                 <button id="info-tab-uni" onclick="switchInfoCategory('uni')" class="px-4 py-2 rounded-lg text-xs font-bold bg-white text-brand-600 shadow-sm transition cursor-pointer">Üniversite</button>
                 <button id="info-tab-dept" onclick="switchInfoCategory('dept')" class="px-4 py-2 rounded-lg text-xs font-medium text-gray-600 transition cursor-pointer hover:text-gray-900">Bölüm</button>
                 <button id="info-tab-dorm" onclick="switchInfoCategory('dorm')" class="px-4 py-2 rounded-lg text-xs font-medium text-gray-600 transition cursor-pointer hover:text-gray-900">Yurt</button>
+            </div>
+        </div>
+
+        <!-- Üniversite + Bölüm Filtreleri -->
+        <div id="info-program-filter" class="hidden bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Üniversite</label>
+                    <select id="info-filter-uni" onchange="applyInfoProgramFilters()" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-400 cursor-pointer">
+                        <option value="">Tüm Üniversiteler</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Bölüm</label>
+                    <select id="info-filter-dept" onchange="applyInfoProgramFilters()" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-400 cursor-pointer">
+                        <option value="">Tüm Bölümler</option>
+                    </select>
+                </div>
             </div>
         </div>
         
@@ -554,10 +568,10 @@
     </div>
 
     <!-- Forum Detay Modal -->
-    <div id="forum-detail-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm p-4">
-        <div class="bg-white rounded-2xl p-6 sm:p-8 max-w-2xl w-full relative shadow-2xl max-h-[90vh] overflow-y-auto">
-            <button onclick="closeModal('forum-detail-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl font-bold cursor-pointer">&times;</button>
-            <div id="forum-modal-content" class="space-y-4"></div>
+    <div id="forum-detail-modal" class="hidden fixed inset-0 bg-white z-50 overflow-y-auto">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
+            <button onclick="closeModal('forum-detail-modal')" class="absolute top-6 right-4 sm:right-6 lg:right-8 text-gray-400 hover:text-gray-600 text-3xl font-bold cursor-pointer">&times;</button>
+            <div id="forum-modal-content" class="space-y-4 pr-10"></div>
         </div>
     </div>
 
@@ -672,22 +686,22 @@
     </div>
 
     <!-- Randevularım Modalı -->
-    <div id="appointments-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm p-4">
-        <div class="bg-white rounded-2xl p-6 sm:p-8 max-w-xl w-full relative shadow-2xl max-h-[90vh] overflow-y-auto">
-            <button onclick="closeModal('appointments-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl font-bold cursor-pointer">&times;</button>
+    <div id="appointments-modal" class="hidden fixed inset-0 bg-white z-50 overflow-y-auto">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
+            <button onclick="closeModal('appointments-modal')" class="absolute top-6 right-4 sm:right-6 lg:right-8 text-gray-400 hover:text-gray-600 text-3xl font-bold cursor-pointer">&times;</button>
             <h2 class="text-xl font-bold text-gray-900 mb-4">Randevularım</h2>
-            <div id="appointments-modal-list" class="space-y-4">
+            <div id="appointments-modal-list" class="space-y-4 pr-10">
                 <!-- Dinamik Randevular -->
             </div>
         </div>
     </div>
 
     <!-- Tercih Listem Modalı -->
-    <div id="preference-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm p-4">
-        <div class="bg-white rounded-2xl p-6 sm:p-8 max-w-xl w-full relative shadow-2xl max-h-[90vh] overflow-y-auto">
-            <button onclick="closeModal('preference-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl font-bold cursor-pointer">&times;</button>
+    <div id="preference-modal" class="hidden fixed inset-0 bg-white z-50 overflow-y-auto">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
+            <button onclick="closeModal('preference-modal')" class="absolute top-6 right-4 sm:right-6 lg:right-8 text-gray-400 hover:text-gray-600 text-3xl font-bold cursor-pointer">&times;</button>
             <h2 class="text-xl font-bold text-gray-900 mb-4">Tercih Listem</h2>
-            <div id="preference-modal-list" class="space-y-4">
+            <div id="preference-modal-list" class="space-y-4 pr-10">
                 <!-- Dinamik Tercihler -->
             </div>
         </div>
@@ -748,6 +762,8 @@
         let mockForumTopics = [];
         let mockRankings = [];
         let infoData = { uni: [], dept: [], dorm: [] };
+        let infoProgramData = [];
+        let activeInfoCategories = ['uni'];
 
         function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
         function getRandomTags(sourceTags, count) {
@@ -826,10 +842,25 @@
                 "Hazırlık sınıfı atlama sınavı zor mu?",
                 "Kampüste sosyal imkanlar ve kulüpler nasıl?"
             ];
+            const replyTexts = [
+                "Benzer süreci geçen dönem yaşadım, başvuru tarihlerini okulun duyurularından sık sık kontrol etmek gerekiyor.",
+                "Bölümdeki üst sınıflardan destek almak çok işe yarıyor. Özellikle ilk haftalarda kulüp tanışma etkinliklerini kaçırmayın.",
+                "Staj ve proje tarafında hocalarla erken iletişime geçersen avantaj sağlarsın, ilanları da LinkedIn üzerinden takip edebilirsin.",
+                "Hazırlık sınavında gramer kadar okuma ve dinleme pratiği de önemli. Çıkmış örnekleri çözmek büyük fark yaratıyor.",
+                "KYK ve özel yurt seçeneklerini aynı anda araştırmanı öneririm. Kampüse ulaşım süresini mutlaka hesaba kat.",
+                "Ben ilk yıl biraz zorlandım ama düzenli çalışınca tempo oturuyor. Ders seçimi yaparken hocanın beklentilerini sorabilirsin.",
+                "Kampüs sosyal olarak gayet hareketli. Kulüplere erken dahil olursan çevre edinmek çok daha kolay oluyor.",
+                "Ortalama hedefin varsa ilk dönemden itibaren küçük ödevleri bile ciddiye almak gerekiyor, final haftasına bırakma."
+            ];
 
             for (let i = 0; i < 50; i++) {
                 let dormType = getRandom(["KYK", "Özel Yurt", "Ev"]);
                 let dormDetail = dormType === "KYK" ? getRandom(kykDorms) : (dormType === "Özel Yurt" ? getRandom(privateDorms) : "Öğrenci Evi");
+                let replies = Array.from({ length: Math.floor(Math.random() * 4) + 4 }, (_, index) => ({
+                    author: getRandom(firstNames) + " " + getRandom(lastNames),
+                    text: getRandom(replyTexts),
+                    time: (index + 1) + " saat önce"
+                }));
                 list.push({
                     id: i,
                     title: getRandom(titles) + " (" + getRandom(universities) + " " + getRandom(departments) + ")",
@@ -840,11 +871,11 @@
                     studentClass: getRandom(classUni),
                     dormType: dormType,
                     dormDetail: dormDetail,
-                    repliesCount: Math.floor(Math.random() * 15) + 1,
+                    repliesCount: replies.length,
                     rating: parseFloat((Math.random() * 1.0 + 4.0).toFixed(1)),
                     voteCount: Math.floor(Math.random() * 30) + 5,
                     time: (i + 1) + " saat önce",
-                    replies: [{ author: "Can Yıldız", text: "Kesinlikle tavsiye ederim, detaylar çok net.", time: "1 saat önce" }]
+                    replies: replies
                 });
             }
             return list;
@@ -883,6 +914,7 @@
             initCommentFilters();
             initForumFilters();
             initRankingFilters();
+            initInfoProgramFilters();
             switchInfoCategory('uni');
             filterCategory('university');
         }
@@ -954,16 +986,106 @@
             }));
         }
 
+        function initInfoProgramFilters() {
+            const uniSelect = document.getElementById('info-filter-uni');
+            const deptSelect = document.getElementById('info-filter-dept');
+            if(!uniSelect || !deptSelect) return;
+
+            infoProgramData = universities.flatMap((uni, uniIndex) => departments.map((dept, deptIndex) => ({
+                uni: uni,
+                dept: dept,
+                scoreType: deptIndex % 4 === 0 ? 'SAY' : (deptIndex % 4 === 1 ? 'EA' : (deptIndex % 4 === 2 ? 'SÖZ' : 'DİL')),
+                rank: (uniIndex + 1) * 1250 + (deptIndex + 1) * 870,
+                quota: 30 + ((uniIndex + deptIndex) % 5) * 10
+            })));
+
+            uniSelect.innerHTML = `<option value="">Tüm Üniversiteler</option>` + universities.map(uni => `<option value="${uni}">${uni} Üniversitesi</option>`).join('');
+            deptSelect.innerHTML = `<option value="">Tüm Bölümler</option>` + departments.map(dept => `<option value="${dept}">${dept}</option>`).join('');
+        }
+
+        function applyInfoProgramFilters() {
+            const uni = document.getElementById('info-filter-uni').value;
+            const dept = document.getElementById('info-filter-dept').value;
+            const filtered = infoProgramData.filter(item => {
+                if(uni && item.uni !== uni) return false;
+                if(dept && item.dept !== dept) return false;
+                return true;
+            });
+            renderInfoProgramCards(filtered);
+        }
+
+        function renderInfoProgramCards(list) {
+            const grid = document.getElementById('info-cards-grid');
+            if(!grid) return;
+
+            if(list.length === 0) {
+                grid.innerHTML = `<div class="md:col-span-2 lg:col-span-3 bg-white border border-gray-100 rounded-2xl p-8 text-center text-sm text-gray-500">Seçilen filtrelere uygun sonuç bulunamadı.</div>`;
+                return;
+            }
+
+            grid.innerHTML = list.map(item => `
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition overflow-hidden flex flex-col">
+                    <div class="p-6 flex flex-col flex-1 justify-between">
+                        <div>
+                            <div class="flex justify-between items-start gap-4 mb-4">
+                                <div>
+                                    <h3 class="font-bold text-gray-900 text-lg">${item.uni} Üniversitesi</h3>
+                                    <p class="text-sm text-brand-700 font-bold mt-1">${item.dept}</p>
+                                </div>
+                                <span class="bg-brand-50 text-brand-700 text-xs px-2.5 py-1 rounded-lg font-bold border border-brand-100">${item.scoreType}</span>
+                            </div>
+                            <p class="text-xs text-gray-600 leading-relaxed mb-4">${item.uni} Üniversitesi ${item.dept} programı için taban sıralama, kontenjan ve puan türü bilgilerini inceleyin.</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 mt-auto">
+                            <div class="bg-gray-50 rounded-xl p-3 border border-gray-100">
+                                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Sıralama</p>
+                                <p class="text-sm font-bold text-gray-900">${item.rank.toLocaleString('tr-TR')}</p>
+                            </div>
+                            <div class="bg-gray-50 rounded-xl p-3 border border-gray-100">
+                                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Kontenjan</p>
+                                <p class="text-sm font-bold text-gray-900">${item.quota}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
         function switchInfoCategory(category) {
+            const programFilter = document.getElementById('info-program-filter');
+
+            if(category === 'dorm') {
+                activeInfoCategories = ['dorm'];
+            } else if(activeInfoCategories.includes('uni') && activeInfoCategories.includes('dept')) {
+                activeInfoCategories = activeInfoCategories.filter(cat => cat !== category);
+            } else if(category === 'dept') {
+                activeInfoCategories = ['uni', 'dept'];
+            } else {
+                activeInfoCategories = ['uni'];
+            }
+
             ['uni', 'dept', 'dorm'].forEach(cat => {
                 const btn = document.getElementById(`info-tab-${cat}`);
                 if(btn) {
-                    btn.className = (cat === category) 
+                    btn.className = (activeInfoCategories.includes(cat)) 
                         ? "px-4 py-2 rounded-lg text-xs font-bold bg-white text-brand-600 shadow-sm transition cursor-pointer"
                         : "px-4 py-2 rounded-lg text-xs font-medium text-gray-600 transition cursor-pointer hover:text-gray-900";
                 }
             });
-            renderInfoCards(infoData[category]);
+
+            if(activeInfoCategories.includes('uni') && activeInfoCategories.includes('dept')) {
+                if(programFilter) programFilter.classList.remove('hidden');
+                applyInfoProgramFilters();
+            } else if(activeInfoCategories.includes('dept')) {
+                if(programFilter) programFilter.classList.add('hidden');
+                renderInfoCards(infoData.dept);
+            } else if(activeInfoCategories.includes('dorm')) {
+                if(programFilter) programFilter.classList.add('hidden');
+                renderInfoCards(infoData.dorm);
+            } else {
+                if(programFilter) programFilter.classList.add('hidden');
+                renderInfoCards(infoData.uni);
+            }
         }
 
         function renderInfoCards(list) {
@@ -1192,7 +1314,18 @@
         function renderForumTopics(data) {
             const container = document.getElementById('forum-container');
             if(!container) return;
-            container.innerHTML = data.map(topic => `
+            container.innerHTML = data.map(topic => {
+                const previewReplies = topic.replies.slice(0, 3).map(reply => `
+                    <div class="bg-gray-50 p-3 rounded-xl border border-gray-100">
+                        <div class="flex items-center justify-between gap-3 mb-1">
+                            <span class="text-xs font-bold text-gray-900">${reply.author}</span>
+                            <span class="text-[11px] text-gray-400 whitespace-nowrap">${reply.time}</span>
+                        </div>
+                        <p class="text-xs text-gray-600 leading-relaxed">${reply.text}</p>
+                    </div>
+                `).join('');
+
+                return `
                 <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4 hover:border-brand-300 transition cursor-pointer" onclick="openForumDetail(${topic.id})">
                     <div class="flex items-center justify-between">
                         <div>
@@ -1201,19 +1334,35 @@
                         </div>
                         <span class="bg-brand-50 text-brand-700 text-xs px-3 py-1.5 rounded-xl font-bold">${topic.repliesCount} Yanıt</span>
                     </div>
+                    <div class="space-y-2 pt-2 border-t border-gray-100">
+                        ${previewReplies}
+                    </div>
+                    <p class="text-xs font-bold text-brand-600">Tüm yanıtları gör →</p>
                 </div>
-            `).join('');
+            `}).join('');
         }
 
         function openForumDetail(topicId) {
             let topic = mockForumTopics.find(t => t.id === topicId);
             if(!topic) return;
+            const repliesHtml = topic.replies.map(reply => `
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                    <div class="flex items-center justify-between gap-3 mb-2">
+                        <span class="text-sm font-bold text-gray-900">${reply.author}</span>
+                        <span class="text-xs text-gray-400 whitespace-nowrap">${reply.time}</span>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed">${reply.text}</p>
+                </div>
+            `).join('');
+
             document.getElementById('forum-modal-content').innerHTML = `
                 <h2 class="text-xl font-bold text-gray-900 mb-2">${topic.title}</h2>
-                <p class="text-xs text-gray-500 mb-4">Gönderen: ${topic.author} • ${topic.uni}</p>
-                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                    <p class="text-xs text-gray-700">Kesinlikle tavsiye ederim, kayıt ve başvuru süreci çok kolay ilerliyor.</p>
+                <p class="text-xs text-gray-500 mb-4">Gönderen: ${topic.author} • ${topic.uni} • ${topic.dept}</p>
+                <div class="flex items-center justify-between border-y border-gray-100 py-3 mb-4">
+                    <span class="text-sm font-bold text-gray-900">Yanıtlar</span>
+                    <span class="bg-brand-50 text-brand-700 text-xs px-3 py-1.5 rounded-xl font-bold">${topic.repliesCount} Yanıt</span>
                 </div>
+                <div class="space-y-3">${repliesHtml}</div>
             `;
             showModal('forum-detail-modal');
         }
