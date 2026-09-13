@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karar Noktası - Eğitim ve Kariyer Danışmanlığı</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fefce8',
+                            100: '#fef9c3',
+                            200: '#fef08a',
+                            300: '#fde047',
+                            400: '#facc15',
+                            500: '#eab308',
+                            600: '#ca8a04',
+                            700: '#a16207',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Uyarı Banner -->
+    <div class="bg-red-50 border-b border-red-200 py-2 px-4 text-center">
+        <p class="text-sm font-bold text-black flex items-center justify-center gap-2">
+            <svg class="w-5 h-5 text-red-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            Bu uygulama yapılacak projenin ön izlemesi olması adına yapılmıştır ve kullanılan veriler gerçek değildir.
+        </p>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <!-- Left Logo & Links -->
+                <div class="flex items-center space-x-8">
+                    <span onclick="showView('view-home')" class="text-xl font-black tracking-tight text-gray-900 cursor-pointer flex items-center gap-2">
+                        <span class="w-8 h-8 bg-brand-400 rounded-lg flex items-center justify-center text-gray-900 font-bold">K</span>
+                        Karar Noktası
+                    </span>
+                    <div class="hidden md:flex space-x-6 text-sm font-medium">
+                        <button onclick="showView('view-home')" class="text-gray-600 hover:text-brand-600 cursor-pointer transition">Anasayfa</button>
+                        
+                        <!-- Danışmanlar Dropdown -->
+                        <div class="relative group py-5">
+                            <button class="text-gray-600 group-hover:text-brand-600 flex items-center gap-1 cursor-pointer">
+                                Danışmanlar
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="absolute top-12 left-0 w-48 bg-white border border-gray-200 rounded-xl shadow-lg hidden group-hover:block p-2 pt-4">
+                                <button onclick="switchCategoryAndNav('university')" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brand-50 rounded-lg font-medium cursor-pointer">Üniversite</button>
+                                <button onclick="switchCategoryAndNav('highschool')" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brand-50 rounded-lg font-medium cursor-pointer">Lise</button>
+                                <button onclick="switchCategoryAndNav('work')" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brand-50 rounded-lg font-medium cursor-pointer">İş / Kariyer</button>
+                            </div>
+                        </div>
+
+                        <!-- Üniversite/Bölüm Dropdown (Bilgilendirme içeride) -->
+                        <div class="relative group py-5">
+                            <button class="text-gray-600 group-hover:text-brand-600 flex items-center gap-1 cursor-pointer">
+                                Üniversite / Bölüm
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="absolute top-12 left-0 w-52 bg-white border border-gray-200 rounded-xl shadow-lg hidden group-hover:block p-2 pt-4">
+                                <button onclick="showView('view-info')" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brand-50 rounded-lg font-medium cursor-pointer">Bilgilendirme</button>
+                                <button onclick="showView('view-comments')" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brand-50 rounded-lg font-medium cursor-pointer">Yorumlar</button>
+                                <button onclick="showView('view-forum')" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brand-50 rounded-lg font-medium cursor-pointer">Forum</button>
+                                <button onclick="showView('view-rankings')" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brand-50 rounded-lg font-medium cursor-pointer">Sıralama Tablosu</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Profile / Avatar & Actions -->
+                <div class="flex items-center space-x-4">
+                    <div class="relative group">
+                        <button class="flex items-center gap-3 focus:outline-none cursor-pointer py-2">
+                            <span class="text-sm font-bold text-gray-800 hidden sm:inline">Ahmet Demir</span>
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="w-10 h-10 rounded-full border-2 border-brand-400 object-cover shadow-sm">
+                        </button>
+                        <div class="absolute right-0 top-14 w-52 bg-white border border-gray-200 rounded-xl shadow-lg hidden group-hover:block p-2 z-50">
+                            <div class="px-4 py-2 border-b border-gray-100">
+                                <p class="text-xs font-bold text-gray-900">Ahmet Demir</p>
+                                <p class="text-[10px] text-gray-500">Öğrenci / Danışan</p>
+                            </div>
+                            <button onclick="showView('view-user-profile')" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brand-50 rounded-lg font-medium mt-1 cursor-pointer">Profil İşlemleri</button>
+                            <button onclick="openAppointmentsModal()" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brand-50 rounded-lg font-medium cursor-pointer">Randevularım</button>
+                            <button onclick="openPreferenceListModal()" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brand-50 rounded-lg font-medium cursor-pointer">Tercih Listem</button>
+                            <div class="border-t border-gray-100 my-1"></div>
+                            <button onclick="showModal('auth-modal')" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg font-medium cursor-pointer">Çıkış Yap</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Anasayfa (Landing) -->
+    <div id="view-home" class="view-section block">
+        <!-- Hero Section -->
+        <div class="bg-brand-400">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-6">
+                            Geleceğine Karar Verirken Yalnız Değilsin
+                        </h1>
+                        <p class="text-lg text-gray-800 mb-8 max-w-lg">
+                            Karar Noktası, hedeflediğin lise, üniversite veya şirkette bizzat yer alan deneyimli danışmanlarla seni anında buluşturan platformdur. Doğru tercihi onlardan dinleyerek yap.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button onclick="switchCategoryAndNav('university')" class="bg-gray-900 text-white px-8 py-4 rounded-xl font-bold hover:bg-gray-800 transition shadow-lg text-center cursor-pointer">
+                                Danışmanları Keşfet
+                            </button>
+                        </div>
+                    </div>
+                    <div class="hidden md:flex justify-end relative">
+                        <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-6 transform rotate-2 hover:rotate-0 transition duration-300">
+                            <div class="flex items-center space-x-4 mb-4">
+                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80" class="w-16 h-16 rounded-full border-2 border-brand-400 object-cover">
+                                <div>
+                                    <h3 class="font-bold text-gray-900">Zeynep Yılmaz</h3>
+                                    <p class="text-sm text-gray-500">Boğaziçi Üniv. • Bilgisayar Müh.</p>
+                                </div>
+                            </div>
+                            <div class="bg-brand-50 p-4 rounded-xl mb-4">
+                                <p class="text-sm text-gray-700 italic">"Bölümün zorluklarını ve staj imkanlarını konuşmak için müsaitim. Sorularını bekliyorum!"</p>
+                            </div>
+                            <button onclick="switchCategoryAndNav('university')" class="w-full bg-brand-400 text-gray-900 font-bold py-3 rounded-xl hover:bg-brand-500 transition cursor-pointer">Hemen Randevu Al</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nasıl Çalışır -->
+        <div class="bg-white py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold text-gray-900">Nasıl Çalışır?</h2>
+                    <p class="mt-4 text-gray-500">Sadece 3 adımda hedefindeki kişiyle görüşmeye başla.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <div class="text-center p-6">
+                        <div class="w-16 h-16 mx-auto bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm font-bold text-xl">1</div>
+                        <h3 class="text-xl font-bold mb-3">Danışmanı Bul</h3>
+                        <p class="text-gray-500">Yüzlerce onaylı öğrenci ve profesyonel arasından kriterlerine uygun olanı filtrele.</p>
+                    </div>
+                    <div class="text-center p-6">
+                        <div class="w-16 h-16 mx-auto bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm font-bold text-xl">2</div>
+                        <h3 class="text-xl font-bold mb-3">Randevu Al</h3>
+                        <p class="text-gray-500">Danışmanın takviminden sana uygun olan aralığı seç ve randevu talebini oluştur.</p>
+                    </div>
+                    <div class="text-center p-6">
+                        <div class="w-16 h-16 mx-auto bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm font-bold text-xl">3</div>
+                        <h3 class="text-xl font-bold mb-3">Görüşmeye Başla</h3>
+                        <p class="text-gray-500">Platform üzerinden güvenle ödemeni yap ve görüntülü görüşmeye katılarak merak ettiklerini sor.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tercih Ekosistemi -->
+        <div class="bg-brand-400 py-16 border-t border-brand-500">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900">Üniversite ve Bölüm Ekosistemi</h2>
+                    <p class="text-gray-800 mt-2">Sadece danışmanlık değil; gerçek öğrenci yorumları, forum tartışmaları ve detaylı analizlerle doğru kararı ver.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div onclick="showView('view-info')" class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between group">
+                        <div>
+                            <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-xl flex items-center justify-center font-bold mb-4 group-hover:bg-brand-400 group-hover:text-gray-900 transition">B</div>
+                            <h3 class="font-bold text-gray-900 text-lg mb-2">Bilgilendirme Rehberi</h3>
+                            <p class="text-sm text-gray-600 mb-4">Üniversite, Bölüm ve Yurt rehberleri ile tercih döneminde ihtiyacın olan tüm detayları incele.</p>
+                        </div>
+                        <span class="text-sm font-bold text-brand-600 flex items-center gap-1">Bilgileri İncele &rarr;</span>
+                    </div>
+
+                    <div onclick="showView('view-comments')" class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between group">
+                        <div>
+                            <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-xl flex items-center justify-center font-bold mb-4 group-hover:bg-brand-400 group-hover:text-gray-900 transition">Y</div>
+                            <h3 class="font-bold text-gray-900 text-lg mb-2">Üniversite Yorumları</h3>
+                            <p class="text-sm text-gray-600 mb-4">Öğrencilerin gerçek deneyimlerini okuyun, fakülteler ve kampüsler hakkında bilgi sahibi olun.</p>
+                        </div>
+                        <span class="text-sm font-bold text-brand-600 flex items-center gap-1">İncele &rarr;</span>
+                    </div>
+
+                    <div onclick="showView('view-forum')" class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between group">
+                        <div>
+                            <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-xl flex items-center justify-center font-bold mb-4 group-hover:bg-brand-400 group-hover:text-gray-900 transition">F</div>
+                            <h3 class="font-bold text-gray-900 text-lg mb-2">Adaylar Forumu</h3>
+                            <p class="text-sm text-gray-600 mb-4">Aklına takılan soruları sor, üniversitelilerden doğrudan yanıt al, aktif tartışmalara katıl.</p>
+                        </div>
+                        <span class="text-sm font-bold text-brand-600 flex items-center gap-1">Tartışmalara Katıl &rarr;</span>
+                    </div>
+
+                    <div onclick="showView('view-rankings')" class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between group">
+                        <div>
+                            <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-xl flex items-center justify-center font-bold mb-4 group-hover:bg-brand-400 group-hover:text-gray-900 transition">S</div>
+                            <h3 class="font-bold text-gray-900 text-lg mb-2">Sıralama Tablosu</h3>
+                            <p class="text-sm text-gray-600 mb-4">Geçmiş yıllara ait taban başarı sıralamaları, kontenjanlar ve taban puan verilerini inceleyin.</p>
+                        </div>
+                        <span class="text-sm font-bold text-brand-600 flex items-center gap-1">Tabloya Git &rarr;</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bilgilendirme Görünümü (3 Kategori: Üniversite, Bölüm, Yurt) -->
+    <div id="view-info" class="view-section hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900 mb-2">Tercih Bilgilendirme Rehberi</h1>
+                <p class="text-sm text-gray-500">Üniversiteler, bölümler ve yurt imkanları hakkında kapsamlı verileri inceleyin.</p>
+            </div>
+            <!-- 3 Seçenek Butonları -->
+            <div class="bg-gray-100 p-1.5 rounded-xl flex flex-wrap gap-1">
+                <button id="info-tab-uni" onclick="switchInfoCategory('uni')" class="px-4 py-2 rounded-lg text-xs font-bold bg-white text-brand-600 shadow-sm transition cursor-pointer">Üniversite</button>
+                <button id="info-tab-dept" onclick="switchInfoCategory('dept')" class="px-4 py-2 rounded-lg text-xs font-medium text-gray-600 transition cursor-pointer hover:text-gray-900">Bölüm</button>
+                <button id="info-tab-dorm" onclick="switchInfoCategory('dorm')" class="px-4 py-2 rounded-lg text-xs font-medium text-gray-600 transition cursor-pointer hover:text-gray-900">Yurt</button>
+            </div>
+        </div>
+        
+        <!-- İçerik Kartları Grid -->
+        <div id="info-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+
+    <!-- Bilgilendirme Tam Ekran Detay Görünümü -->
+    <div id="view-info-detail" class="view-section hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <button onclick="showView('view-info')" class="text-sm font-medium text-gray-500 hover:text-brand-600 mb-6 flex items-center cursor-pointer">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Bilgilendirme Rehberine Dön
+        </button>
+
+        <div id="info-detail-container" class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+            <!-- Dinamik Tam Ekran Detay İçeriği -->
+        </div>
+    </div>
+
+    <!-- Danışmanlar (Listeleme & Filtre) -->
+    <div id="view-consultants" class="view-section hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-8">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                <h2 id="category-title" class="text-2xl font-bold text-gray-900">Üniversite Danışmanları Filtrele</h2>
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <label class="text-xs font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap">Sırala:</label>
+                        <select id="sort-select" onchange="applyFilters()" class="w-full sm:w-auto bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs font-medium focus:outline-none focus:border-brand-400 cursor-pointer">
+                            <option value="rating-desc">En Yüksek Puan</option>
+                            <option value="price-asc">En Düşük Fiyat</option>
+                            <option value="price-desc">En Yüksek Fiyat</option>
+                            <option value="meetings-desc">En Fazla Görüşme</option>
+                        </select>
+                    </div>
+
+                    <div class="bg-gray-100 p-1.5 rounded-xl flex gap-1">
+                        <button id="tab-university" onclick="filterCategory('university')" class="px-4 py-2 rounded-lg text-xs font-bold transition cursor-pointer">Üniversite</button>
+                        <button id="tab-highschool" onclick="filterCategory('highschool')" class="px-4 py-2 rounded-lg text-xs font-medium text-gray-600 transition cursor-pointer">Lise</button>
+                        <button id="tab-work" onclick="filterCategory('work')" class="px-4 py-2 rounded-lg text-xs font-medium text-gray-600 transition cursor-pointer">İş / Kariyer</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div>
+                    <label id="label-uni" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Kurum</label>
+                    <select id="filter-uni" onchange="applyFilters()" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-400 transition-all cursor-pointer">
+                        <option value="">Tümü</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label id="label-dept" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Bölüm</label>
+                    <select id="filter-dept" onchange="applyFilters()" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-400 transition-all cursor-pointer">
+                        <option value="">Tümü</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Şehir</label>
+                    <select id="filter-city" onchange="applyFilters()" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-400 transition-all cursor-pointer">
+                        <option value="">Tüm Şehirler</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label id="label-class" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Sınıf</label>
+                    <select id="filter-class" onchange="applyFilters()" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-400 transition-all cursor-pointer">
+                        <option value="">Tümü</option>
+                    </select>
+                </div>
+
+                <div id="filter-lang-container">
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Eğitim Dili</label>
+                    <select id="filter-lang" onchange="applyFilters()" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-400 transition-all cursor-pointer">
+                        <option value="">Tümü</option>
+                        <option value="Türkçe">Türkçe</option>
+                        <option value="İngilizce">İngilizce</option>
+                        <option value="Almanca">Almanca</option>
+                        <option value="Fransızca">Fransızca</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Müsaitlik</label>
+                    <select id="filter-availability" onchange="applyFilters()" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-400 transition-all cursor-pointer">
+                        <option value="">Tümü</option>
+                        <option value="Bugün">Bugün Müsait</option>
+                        <option value="Bu Hafta">Bu Hafta Müsait</option>
+                        <option value="İlerleyen Günlerde">İlerleyen Günlerde</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Fiyat Aralığı (TL / 30dk)</label>
+                    <div class="flex items-center space-x-2">
+                        <input type="number" id="filter-price-min" oninput="applyFilters()" placeholder="Min" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-3 text-sm focus:outline-none focus:border-brand-400">
+                        <span class="text-gray-400">-</span>
+                        <input type="number" id="filter-price-max" oninput="applyFilters()" placeholder="Max" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-3 text-sm focus:outline-none focus:border-brand-400">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Minimum Puan: <span id="rating-val" class="text-brand-600">0</span>+</label>
+                    <input type="range" id="filter-rating" min="0" max="5" step="0.5" value="0" oninput="document.getElementById('rating-val').innerText=this.value; applyFilters()" class="w-full accent-brand-500 mt-2 cursor-pointer">
+                </div>
+            </div>
+            
+            <div class="mt-6 pt-6 border-t border-gray-100 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div class="flex-1">
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Durum & Deneyimler</label>
+                    <div id="dynamic-tags" class="flex flex-wrap items-center gap-3"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="no-results" class="hidden text-center py-12 bg-white rounded-2xl border border-gray-100">
+            <h3 class="text-lg font-bold text-gray-800">Sonuç Bulunamadı</h3>
+            <p class="text-gray-500 mt-2 mb-6">Seçtiğiniz filtrelere uygun danışman bulunamadı. Kriterlerinizi esnetmeyi deneyin.</p>
+        </div>
+
+        <div id="consultants-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+    </div>
+
+    <!-- Profile Detail View -->
+    <div id="view-profile" class="view-section hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <button onclick="showView('view-consultants')" class="text-sm font-medium text-gray-500 hover:text-brand-600 mb-6 flex items-center cursor-pointer">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Danışmanlara Dön
+        </button>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex flex-col sm:flex-row gap-6 items-start">
+                        <img id="detail-img" src="" class="w-24 h-24 rounded-full object-cover border-4 border-brand-100">
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <h1 id="detail-name" class="text-2xl font-bold text-gray-900">İsim</h1>
+                                        <span class="bg-green-100 text-green-700 text-xs px-2.5 py-1 rounded-full font-bold flex items-center shadow-sm">
+                                            <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                            Doğrulanmış Danışman
+                                        </span>
+                                    </div>
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <span class="text-sm text-gray-500" id="detail-city">Şehir</span>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-gray-900" id="detail-price">₺0</div>
+                                    <div class="text-xs text-gray-500">/ 30 Dk.</div>
+                                </div>
+                            </div>
+                            <p id="detail-edu" class="text-brand-700 font-medium mt-3">Eğitim</p>
+                            <div class="flex items-center gap-4 mt-3 text-sm text-gray-600">
+                                <div class="flex items-center"><svg class="w-4 h-4 text-brand-500 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg><span id="detail-rating">0.0</span> <span class="text-gray-400 ml-1" id="detail-reviews">(0)</span></div>
+                                <div class="flex items-center"><svg class="w-4 h-4 text-gray-400 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg><span id="detail-meetings">0 Görüşme</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">Hakkımda ve Deneyimlerim</h3>
+                    <div id="detail-bio" class="space-y-4"></div>
+                    <h4 class="text-sm font-bold text-gray-900 mt-6 mb-3">Danışmanlık Odak Noktaları & Etiketler</h4>
+                    <div id="detail-tags" class="flex flex-wrap gap-2"></div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 sticky top-24">
+                    <div class="border border-gray-200 rounded-xl overflow-hidden mb-4">
+                        <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 flex justify-between items-center">
+                            <span class="text-base font-bold text-gray-900">Müsait Zaman Dilimleri</span>
+                        </div>
+                        <div class="p-4 grid grid-cols-2 gap-2 text-center text-xs" id="detail-slots">
+                            <button onclick="selectSlot(this, 'Çarşamba, 14.00 - 14.30')" class="slot-btn bg-brand-50 text-brand-700 rounded-lg p-3 hover:bg-brand-400 hover:text-white transition font-bold text-sm border border-brand-200 cursor-pointer">Çarşamba <br><span class="text-xs">14.00 - 14.30</span></button>
+                            <button onclick="selectSlot(this, 'Perşembe, 16.30 - 17.00')" class="slot-btn bg-brand-50 text-brand-700 rounded-lg p-3 hover:bg-brand-400 hover:text-white transition font-bold text-sm border border-brand-200 cursor-pointer">Perşembe <br><span class="text-xs">16.30 - 17.00</span></button>
+                            <button onclick="selectSlot(this, 'Cuma, 11.00 - 11.30')" class="slot-btn bg-brand-50 text-brand-700 rounded-lg p-3 hover:bg-brand-400 hover:text-white transition font-bold text-sm border border-brand-200 cursor-pointer">Cuma <br><span class="text-xs">11.00 - 11.30</span></button>
+                            <button onclick="selectSlot(this, 'Cumartesi, 15.00 - 15.30')" class="slot-btn bg-brand-50 text-brand-700 rounded-lg p-3 hover:bg-brand-400 hover:text-white transition font-bold text-sm border border-brand-200 cursor-pointer">Cumartesi <br><span class="text-xs">15.00 - 15.30</span></button>
+                        </div>
+                    </div>
+                    <div class="mb-4 text-sm text-gray-600 font-medium">Seçilen Aralık: <span id="selected-slot-text" class="text-brand-700 font-bold text-base">Henüz seçilmedi</span></div>
+                    <button onclick="bookAppointment()" class="w-full bg-brand-400 text-gray-900 font-bold py-3.5 rounded-xl hover:bg-brand-500 transition shadow-sm cursor-pointer text-base">
+                        Randevu Talebi Oluştur
+                    </button>
+                    <p class="text-xs text-gray-400 text-center mt-3">Randevu onaylanana kadar ücret çekilmez.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Üniversite Yorumları Görünümü -->
+    <div id="view-comments" class="view-section hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 mb-8">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900 mb-1">Yorumlar</h1>
+                    <p class="text-sm text-gray-500">Öğrencilerin gerçek deneyimlerini okuyun, fakülteler ve kampüsler hakkında bilgi sahibi olun.</p>
+                </div>
+                <!-- Yorum Sıralama Seçeneği -->
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <label class="text-xs font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap">Sırala:</label>
+                    <select id="comment-sort-select" onchange="applyCommentFilters()" class="w-full sm:w-auto bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs font-medium focus:outline-none focus:border-brand-400 cursor-pointer">
+                        <option value="rating-desc">En Yüksek Puan</option>
+                        <option value="votes-desc">En Çok Değerlendirilen</option>
+                        <option value="name-asc">İsme Göre (A-Z)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Filtre Alanı -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-4 pt-4 border-t border-gray-100">
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Üniversite</label>
+                    <select id="comment-filter-uni" onchange="applyCommentFilters()" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-400 cursor-pointer">
+                        <option value="">Tümü</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Bölüm</label>
+                    <select id="comment-filter-dept" onchange="applyCommentFilters()" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-400 cursor-pointer">
+                        <option value="">Tümü</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Şehir</label>
+                    <select id="comment-filter-city" onchange="applyCommentFilters()" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-400 cursor-pointer">
+                        <option value="">Tüm Şehirler</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Sınıf</label>
+                    <select id="comment-filter-class" onchange="applyCommentFilters()" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-400 cursor-pointer">
+                        <option value="">Tümü</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Konaklama</label>
+                    <select id="comment-filter-dorm" onchange="toggleKykDropdown(); applyCommentFilters();" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-400 cursor-pointer">
+                        <option value="">Tümü</option>
+                        <option value="KYK">Kredi ve Yurtlar Kurumu (KYK)</option>
+                        <option value="Özel Yurt">Özel Yurt</option>
+                        <option value="Ev">Ev</option>
+                    </select>
+                </div>
+                <div id="kyk-sub-container" class="hidden">
+                    <label id="sub-dorm-label" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Detay</label>
+                    <select id="comment-filter-kyk-name" onchange="applyCommentFilters()" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-400 cursor-pointer">
+                        <option value="">Tümü</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="comments-container" class="space-y-4"></div>
+    </div>
+
+    <!-- Üniversite Forumu Görünümü -->
+    <div id="view-forum" class="view-section hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 mb-8">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900 mb-1">Üniversite Adayları Forumu</h1>
+                    <p class="text-sm text-gray-500">Aklına takılan soruları sor, üniversitelilerden doğrudan yanıt al.</p>
+                </div>
+                <div class="flex items-center gap-4 w-full sm:w-auto">
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <label class="text-xs font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap">Sırala:</label>
+                        <select id="forum-sort-select" onchange="applyForumFilters()" class="w-full sm:w-auto bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs font-medium focus:outline-none focus:border-brand-400 cursor-pointer">
+                            <option value="votes-desc">En Çok Yanıtlanan</option>
+                            <option value="rating-desc">En Çok Puan Alan</option>
+                        </select>
+                    </div>
+                    <button onclick="alert('Forumda soru sormak için giriş yapmalısınız.')" class="bg-brand-400 text-gray-900 font-bold px-5 py-2.5 rounded-xl hover:bg-brand-500 transition cursor-pointer text-xs whitespace-nowrap">Soru Sor</button>
+                </div>
+            </div>
+
+            <!-- Forum Filtreleri -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-4 pt-4 border-t border-gray-100">
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Üniversite</label>
+                    <select id="forum-filter-uni" onchange="applyForumFilters()" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-400 cursor-pointer">
+                        <option value="">Tümü</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Bölüm</label>
+                    <select id="forum-filter-dept" onchange="applyForumFilters()" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-400 cursor-pointer">
+                        <option value="">Tümü</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Şehir</label>
+                    <select id="forum-filter-city" onchange="applyForumFilters()" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-400 cursor-pointer">
+                        <option value="">Tüm Şehirler</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Sınıf</label>
+                    <select id="forum-filter-class" onchange="applyForumFilters()" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-400 cursor-pointer">
+                        <option value="">Tümü</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Konaklama</label>
+                    <select id="forum-filter-dorm" onchange="toggleForumKykDropdown(); applyForumFilters();" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-400 cursor-pointer">
+                        <option value="">Tümü</option>
+                        <option value="KYK">Kredi ve Yurtlar Kurumu (KYK)</option>
+                        <option value="Özel Yurt">Özel Yurt</option>
+                        <option value="Ev">Ev</option>
+                    </select>
+                </div>
+                <div id="forum-kyk-sub-container" class="hidden">
+                    <label id="forum-sub-dorm-label" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Detay</label>
+                    <select id="forum-filter-kyk-name" onchange="applyForumFilters()" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-400 cursor-pointer">
+                        <option value="">Tümü</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="forum-container" class="space-y-4"></div>
+    </div>
+
+    <!-- Forum Detay Modal -->
+    <div id="forum-detail-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm p-4">
+        <div class="bg-white rounded-2xl p-6 sm:p-8 max-w-2xl w-full relative shadow-2xl max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModal('forum-detail-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl font-bold cursor-pointer">&times;</button>
+            <div id="forum-modal-content" class="space-y-4"></div>
+        </div>
+    </div>
+
+    <!-- Sıralama Tablosu Görünümü -->
+    <div id="view-rankings" class="view-section hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 mb-8">
+            <h1 class="text-2xl font-bold text-gray-900 mb-2">YKS Başarı Sıralamaları (Taban Puanlar)</h1>
+            <p class="text-sm text-gray-500">Geçmiş yıllara ait taban sıralamaları, kontenjanlar ve taban puan verilerini inceleyin, filtreleyin.</p>
+        </div>
+
+        <!-- Ranking Filter & Sort Bar -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Üniversite</label>
+                    <select id="ranking-filter-uni" onchange="applyRankingFilters()" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-400 cursor-pointer">
+                        <option value="">Tümü</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Bölüm</label>
+                    <select id="ranking-filter-dept" onchange="applyRankingFilters()" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-400 cursor-pointer">
+                        <option value="">Tümü</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Puan Türü</label>
+                    <select id="ranking-filter-score" onchange="applyRankingFilters()" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-400 cursor-pointer">
+                        <option value="">Tümü</option>
+                        <option value="SAY">SAY</option>
+                        <option value="EA">EA</option>
+                        <option value="SÖZ">SÖZ</option>
+                        <option value="DİL">DİL</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Sıralama Kriteri</label>
+                    <select id="ranking-sort-select" onchange="toggleRankingRange(); applyRankingFilters();" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-400 cursor-pointer">
+                        <option value="rank-asc">En İyi Sıralama (1. den)</option>
+                        <option value="quota-desc">En Fazla Kontenjan</option>
+                        <option value="range">Sıralama Aralığı Gir</option>
+                    </select>
+                </div>
+                <div id="ranking-range-container" class="hidden">
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Sıralama Aralığı</label>
+                    <div class="flex items-center space-x-2">
+                        <input type="number" id="ranking-min-rank" oninput="applyRankingFilters()" placeholder="Min" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-2.5 py-2.5 text-sm focus:outline-none focus:border-brand-400">
+                        <span class="text-gray-400">-</span>
+                        <input type="number" id="ranking-max-rank" oninput="applyRankingFilters()" placeholder="Max" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-2.5 py-2.5 text-sm focus:outline-none focus:border-brand-400">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <table class="w-full text-left border-collapse table-auto">
+                <thead>
+                    <tr class="bg-gray-50 border-b border-gray-200 text-xs font-bold text-gray-500 uppercase">
+                        <th class="py-4 px-4">Üniversite</th>
+                        <th class="py-4 px-4">Bölüm</th>
+                        <th class="py-4 px-4 w-28">Puan Türü</th>
+                        <th class="py-4 px-4 w-32">Sıralama</th>
+                        <th class="py-4 px-1 w-20">Kontenjan</th>
+                        <th class="py-4 px-2 text-right w-36">Tercih İşlemi</th>
+                    </tr>
+                </thead>
+                <tbody id="rankings-tbody" class="text-sm divide-y divide-gray-100">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Tam Ekran Kullanıcı Profili Yönetimi -->
+    <div id="view-user-profile" class="view-section hidden max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">Profil ve Hesap Yönetimi</h1>
+                <p class="text-sm text-gray-500">Kişisel bilgilerinizi, hakkınızda yazısını ve platformdaki özelliklerinizi görüntüleyin ve düzenleyin.</p>
+            </div>
+            <button onclick="showView('view-home')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2.5 rounded-xl text-sm font-bold transition cursor-pointer">Anasayfaya Dön</button>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 space-y-6">
+            <div class="flex flex-col sm:flex-row items-center gap-6 pb-6 border-b border-gray-100">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="w-24 h-24 rounded-full border-4 border-brand-100 object-cover shadow-sm">
+                <div class="flex-1 w-full space-y-2">
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider">Profil Fotoğrafı URL</label>
+                    <input type="text" value="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-400">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Ad Soyad</label>
+                    <input type="text" value="Ahmet Demir" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-400">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">E-posta Adresi</label>
+                    <input type="email" value="ahmet.demir@ornek.com" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-400">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Hakkımda / Özgeçmiş</label>
+                <textarea rows="4" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-400">YKS adayı ve hedef odaklı öğrenci. Üniversite ve bölüm seçiminde doğru danışmanlık alarak geleceğimi şekillendiriyorum.</textarea>
+            </div>
+
+            <div class="pt-4 flex justify-end gap-3">
+                <button onclick="alert('Profiliniz başarıyla güncellendi!')" class="px-6 py-3 rounded-xl text-sm font-bold bg-brand-400 text-gray-900 hover:bg-brand-500 transition cursor-pointer shadow-sm">Değişiklikleri Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Randevularım Modalı -->
+    <div id="appointments-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm p-4">
+        <div class="bg-white rounded-2xl p-6 sm:p-8 max-w-xl w-full relative shadow-2xl max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModal('appointments-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl font-bold cursor-pointer">&times;</button>
+            <h2 class="text-xl font-bold text-gray-900 mb-4">Randevularım</h2>
+            <div id="appointments-modal-list" class="space-y-4">
+                <!-- Dinamik Randevular -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Tercih Listem Modalı -->
+    <div id="preference-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm p-4">
+        <div class="bg-white rounded-2xl p-6 sm:p-8 max-w-xl w-full relative shadow-2xl max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModal('preference-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl font-bold cursor-pointer">&times;</button>
+            <h2 class="text-xl font-bold text-gray-900 mb-4">Tercih Listem</h2>
+            <div id="preference-modal-list" class="space-y-4">
+                <!-- Dinamik Tercihler -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="auth-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm">
+        <div class="bg-white rounded-2xl p-8 max-w-sm w-full relative shadow-2xl">
+            <button onclick="closeModal('auth-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 cursor-pointer">&times;</button>
+            <h2 class="text-2xl font-bold text-center mb-6">Giriş Yap</h2>
+            <input type="email" placeholder="E-posta adresiniz" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 mb-4 text-sm focus:outline-none focus:border-brand-400">
+            <button onclick="closeModal('auth-modal'); alert('Giriş yapıldı!')" class="w-full bg-gray-900 text-white font-bold py-3 rounded-xl hover:bg-gray-800 transition cursor-pointer">Devam Et</button>
+        </div>
+    </div>
+
+    <script>
+        const firstNames = ["Ahmet", "Ayşe", "Mehmet", "Fatma", "Can", "Zeynep", "Ali", "Elif", "Burak", "Cemre", "Deniz", "Ece", "Emre", "Gizem", "Kaan", "Melis", "Onur", "Selin", "Tolga", "Yaren"];
+        const lastNames = ["Yılmaz", "Kaya", "Demir", "Çelik", "Şahin", "Yıldız", "Öztürk", "Aydın", "Özdemir", "Arslan", "Doğan", "Kılıç", "Aslan", "Çetin", "Kara", "Koç", "Kurt", "Özkan", "Şimşek"];
+        const cities = ["İstanbul", "Ankara", "İzmir", "Bursa", "Antalya", "Eskişehir", "Adana", "Gaziantep", "Konya", "Kayseri"];
+        const languages = ["Türkçe", "İngilizce", "Almanca", "Fransızca"];
+        const availabilityTypes = ["Bugün", "Bu Hafta", "İlerleyen Günlerde"];
+
+        const universities = ["Boğaziçi", "İTÜ", "Bilkent", "Koç", "Sabancı", "Galatasaray", "Hacettepe", "Yıldız Teknik", "Marmara"];
+        const departments = ["Bilgisayar Mühendisliği", "İşletme", "Endüstri Mühendisliği", "Tıp", "Hukuk", "Psikoloji", "Mimarlık", "Ekonomi", "Makine Mühendisliği", "Diş Hekimliği"];
+        const classUni = ["1. Sınıf", "2. Sınıf", "3. Sınıf", "4. Sınıf", "Hazırlık", "Mezun"];
+        const tagsUni = ["Erasmus", "Burslu", "Hazırlık", "Staj", "Yurt Deneyimi", "Öğrenci Kulübü"];
+
+        const highSchools = ["Galatasaray Lisesi", "İstanbul Erkek Lisesi", "Kabataş Erkek Lisesi", "Ankara Fen Lisesi", "İzmir Fen Lisesi"];
+        const hsFields = ["Sayısal", "Eşit Ağırlık", "Sözel", "Yabancı Dil"];
+        const classHs = ["9. Sınıf", "10. Sınıf", "11. Sınıf", "12. Sınıf", "Mezun"];
+        const tagsHs = ["Olimpiyat", "Proje Okulu", "Tam Burslu", "Pansiyon", "Yurt Dışı Hedef"];
+
+        const companies = ["Google", "Microsoft", "Amazon", "Trendyol", "Getir", "Aselsan", "Havelsan", "THY", "Koç Holding", "Sabancı Holding"];
+        const professions = ["Yazılım Mühendisi", "Ürün Yöneticisi", "Veri Bilimcisi", "İK Uzmanı", "Finans Analisti", "Pazarlama Müdürü", "Proje Yöneticisi"];
+        const classWork = ["0-2 Yıl", "3-5 Yıl", "5-10 Yıl", "10+ Yıl"];
+        const tagsWork = ["Uzaktan Çalışma", "Yöneticilik", "Startup", "Kurumsal", "Yurt Dışı Kariyer", "Yarı Zamanlı"];
+
+        const kykDorms = ["Ahmet Yesevi KYK Yurdu", "Fatma Aliye KYK Yurdu", "Cahit Zarifoğlu KYK Yurdu", "Valide Sultan KYK Yurdu", "Mimar Sinan KYK Yurdu", "Yıldız KYK Yurdu", "Atatürk KYK Yurdu", "Gazi KYK Yurdu", "Farabi KYK Yurdu", "Mevlana KYK Yurdu"];
+        const privateDorms = ["Vefa Özel Yükseköğrenim Kız Öğrenci Yurdu", "Konfor Özel Erkek Öğrenci Yurdu", "Agora Öğrenci Yaşam Merkezi", "Moda Kız Öğrenci Apartı", "Akasya Özel Yurt", "Lider Kız Yurdu", "Zirve Erkek Yurdu", "Prestij Öğrenci Evi", "Elite Yurt", "Metropol Kampüs Yurtları"];
+        
+        const avatarPool = [
+            "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80"
+        ];
+
+        let currentCategory = 'university';
+        let currentDataList = [];
+        let selectedSlotTime = null;
+        let userAppointments = [];
+        let userPreferences = [];
+        let mockComments = [];
+        let mockForumTopics = [];
+        let mockRankings = [];
+        let infoData = { uni: [], dept: [], dorm: [] };
+
+        function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+        function getRandomTags(sourceTags, count) {
+            let shuffled = [...sourceTags].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+
+        function generateData(category, count) {
+            let data = [];
+            for (let i = 0; i < count; i++) {
+                let u, d, c, tagSrc;
+                if (category === 'university') {
+                    u = getRandom(universities); d = getRandom(departments); c = getRandom(classUni); tagSrc = tagsUni;
+                } else if (category === 'highschool') {
+                    u = getRandom(highSchools); d = getRandom(hsFields); c = getRandom(classHs); tagSrc = tagsHs;
+                } else {
+                    u = getRandom(companies); d = getRandom(professions); c = getRandom(classWork); tagSrc = tagsWork;
+                }
+                
+                data.push({
+                    id: category + '-' + i,
+                    n: getRandom(firstNames) + " " + getRandom(lastNames),
+                    u: u,
+                    d: d,
+                    c: c,
+                    city: getRandom(cities),
+                    price: Math.floor(Math.random() * 300) + 100,
+                    rating: (Math.random() * 1.5 + 3.5).toFixed(1),
+                    reviews: Math.floor(Math.random() * 100),
+                    meetings: Math.floor(Math.random() * 200),
+                    tags: getRandomTags(tagSrc, Math.floor(Math.random() * 3) + 1),
+                    img: avatarPool[i % avatarPool.length],
+                    lang: category === 'work' ? null : getRandom(languages),
+                    avail: getRandom(availabilityTypes)
+                });
+            }
+            return data;
+        }
+
+        function generateMockComments() {
+            let list = [];
+            const commentTexts = [
+                "Akademik kadro gerçekten çok güçlü ve araştırma olanakları üst seviyede. Kampüs hayatı ve kulüpler öğrencilere çok şey katıyor.",
+                "Bölümün ders yükü biraz ağır ancak laboratuvar imkanları ve hocaların yaklaşımı sayesinde bu süreci çok verimli geçiriyorsunuz.",
+                "Kampüs konumu ve sosyal olanaklar harika. Mezuniyet sonrasında staj ve iş bulma konusunda üniversitenin ağı çok geniş.",
+                "Ulaşım ve barınma olanakları ilk başta zorlasa da zamanla alışıyorsunuz. Kesinlikle tavsiye edeceğim bir bölüm.",
+                "Dersler tamamen İngilizce ve ilk yıl hazırlık eğitimi beklentilerimi fazlasıyla karşıladı. Erasmus imkanları da oldukça geniş."
+            ];
+
+            for (let i = 0; i < 50; i++) {
+                let dormType = getRandom(["KYK", "Özel Yurt", "Ev"]);
+                let dormDetail = dormType === "KYK" ? getRandom(kykDorms) : (dormType === "Özel Yurt" ? getRandom(privateDorms) : "Öğrenci Evi");
+                list.push({
+                    id: i,
+                    name: getRandom(firstNames) + " " + getRandom(lastNames),
+                    uni: getRandom(universities),
+                    dept: getRandom(departments),
+                    city: getRandom(cities),
+                    studentClass: getRandom(classUni),
+                    dormType: dormType,
+                    dormDetail: dormDetail,
+                    rating: (Math.random() * 1.0 + 4.0).toFixed(1),
+                    voteCount: Math.floor(Math.random() * 30) + 5,
+                    text: getRandom(commentTexts)
+                });
+            }
+            return list;
+        }
+
+        function generateMockForumTopics() {
+            let list = [];
+            const titles = [
+                "Erasmus için ortalama kaç olmalı?",
+                "Yurt başvuruları ne zaman açıklanır?",
+                "Bu bölümde staj bulmak zor mu?",
+                "Hazırlık sınıfı atlama sınavı zor mu?",
+                "Kampüste sosyal imkanlar ve kulüpler nasıl?"
+            ];
+
+            for (let i = 0; i < 50; i++) {
+                let dormType = getRandom(["KYK", "Özel Yurt", "Ev"]);
+                let dormDetail = dormType === "KYK" ? getRandom(kykDorms) : (dormType === "Özel Yurt" ? getRandom(privateDorms) : "Öğrenci Evi");
+                list.push({
+                    id: i,
+                    title: getRandom(titles) + " (" + getRandom(universities) + " " + getRandom(departments) + ")",
+                    author: getRandom(firstNames) + " " + getRandom(lastNames),
+                    uni: getRandom(universities),
+                    dept: getRandom(departments),
+                    city: getRandom(cities),
+                    studentClass: getRandom(classUni),
+                    dormType: dormType,
+                    dormDetail: dormDetail,
+                    repliesCount: Math.floor(Math.random() * 15) + 1,
+                    rating: parseFloat((Math.random() * 1.0 + 4.0).toFixed(1)),
+                    voteCount: Math.floor(Math.random() * 30) + 5,
+                    time: (i + 1) + " saat önce",
+                    replies: [{ author: "Can Yıldız", text: "Kesinlikle tavsiye ederim, detaylar çok net.", time: "1 saat önce" }]
+                });
+            }
+            return list;
+        }
+
+        function generateMockRankings() {
+            let list = [];
+            const scoreTypes = ["SAY", "EA", "SÖZ", "DİL"];
+            for (let i = 0; i < 100; i++) {
+                list.push({
+                    id: i,
+                    uni: getRandom(universities),
+                    dept: getRandom(departments),
+                    scoreType: getRandom(scoreTypes),
+                    rank: Math.floor(Math.random() * 80000) + 150,
+                    quota: (Math.floor(Math.random() * 15) + 3) * 10
+                });
+            }
+            return list;
+        }
+
+        const uniList = generateData('university', 20);
+        const hsList = generateData('highschool', 20);
+        const workList = generateData('work', 20);
+        mockComments = generateMockComments();
+        mockForumTopics = generateMockForumTopics();
+        mockRankings = generateMockRankings();
+        initInfoData();
+
+        window.onload = () => {
+            const citySelect = document.getElementById('filter-city');
+            if (citySelect) {
+                citySelect.innerHTML = `<option value="">Tüm Şehirler</option>` + cities.sort().map(city => `<option value="${city}">${city}</option>`).join('');
+            }
+            
+            initCommentFilters();
+            initForumFilters();
+            initRankingFilters();
+            switchInfoCategory('uni');
+            filterCategory('university');
+        }
+
+        function initInfoData() {
+            const uniImages = {
+                'Boğaziçi': 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&auto=format&fit=crop&q=80',
+                'İTÜ': 'https://images.unsplash.com/photo-1590012314607-cda9d9b699ae?w=600&auto=format&fit=crop&q=80',
+                'Bilkent': 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&auto=format&fit=crop&q=80',
+                'Koç': 'https://images.unsplash.com/photo-1519452635265-7b1fbfd1e4e0?w=600&auto=format&fit=crop&q=80',
+                'Sabancı': 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&auto=format&fit=crop&q=80',
+                'Galatasaray': 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=600&auto=format&fit=crop&q=80',
+                'Hacettepe': 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=600&auto=format&fit=crop&q=80',
+                'Yıldız Teknik': 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&auto=format&fit=crop&q=80',
+                'Marmara': 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=600&auto=format&fit=crop&q=80'
+            };
+
+            const dormImages = [
+                'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=600&auto=format&fit=crop&q=80',
+                'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=600&auto=format&fit=crop&q=80',
+                'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=600&auto=format&fit=crop&q=80',
+                'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=600&auto=format&fit=crop&q=80'
+            ];
+
+            infoData.uni = universities.map((u, i) => ({
+                id: 'uni-' + i,
+                name: u + ' Üniversitesi',
+                img: uniImages[u] || 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&auto=format&fit=crop&q=80',
+                summary: u + ' Üniversitesi, güçlü akademik kadrosu, modern kampüs olanakları ve geniş mezun ağı ile Türkiye\'nin köklü yükseköğretim kurumlarından biridir.',
+                details: {
+                    ogrenciSayisi: (Math.floor(Math.random() * 30000) + 12000).toLocaleString('tr-TR'),
+                    akademisyenSayisi: (Math.floor(Math.random() * 2000) + 800).toLocaleString('tr-TR'),
+                    kampusKonumu: getRandom(cities) + ' / Merkez Kampüs',
+                    bolumSayisi: Math.floor(Math.random() * 50) + 30,
+                    erasmusOrani: '%' + (Math.floor(Math.random() * 20) + 10),
+                    yurtKapasitesi: (Math.floor(Math.random() * 5000) + 2000).toLocaleString('tr-TR') + ' Kişilik',
+                    aciklama: u + ' Üniversitesi, uluslararası standartlardaki eğitim kalitesi, laboratuvar altyapısı, zengin kütüphane olanakları ve aktif öğrenci kulüpleri ile öğrencilerine sadece akademik değil çok yönlü bir yaşam deneyimi sunar.'
+                }
+            }));
+
+            infoData.dept = departments.map((d, i) => ({
+                id: 'dept-' + i,
+                name: d,
+                img: null,
+                summary: d + ', günümüz teknoloji ve iş dünyasının en çok talep gören, analitik düşünme ve pratik uygulama gerektiren disiplinlerinden biridir.',
+                details: {
+                    mezuniyetIstihdam: '%' + (Math.floor(Math.random() * 15) + 85),
+                    ortalamaMaas: '₺' + (Math.floor(Math.random() * 40000) + 35000).toLocaleString('tr-TR'),
+                    zorlukDerecesi: '10 üzerinden ' + (Math.floor(Math.random() * 2) + 8) + ' (Yüksek)',
+                    stajZorunlulugu: 'Var (Minimum 60 İş Günü)',
+                    puanTuru: getRandom(['SAY', 'EA', 'SÖZ', 'DİL']),
+                    aciklama: d + ' programı; öğrencilere teorik temellerin yanı sıra proje tabanlı uygulamalar, staj imkanları ve sektörel iş birlikleri kazandırır. Mezunlar uluslararası şirketlerde ve prestijli kurumlarda kariyer fırsatı yakalar.'
+                }
+            }));
+
+            infoData.dorm = kykDorms.concat(privateDorms).slice(0, 15).map((d, i) => ({
+                id: 'dorm-' + i,
+                name: d,
+                img: dormImages[i % dormImages.length],
+                summary: d + ', konforlu odaları, çalışma salonları, 7/24 sıcak su ve güvenlik imkanlarıyla öğrencilere huzurlu bir barınma ortamı sunar.',
+                details: {
+                    odaKapasitesi: getRandom(['2 Kişilik', '3 Kişilik', '4 Kişilik']),
+                    internetHizi: '100 Mbps Sınırsız Fiber',
+                    yemekHizmeti: 'Sabah Kahvaltısı ve Akşam Yemeği Dahil',
+                    guvenlik: '7/24 Güvenlik Görevlisi ve Kartlı Geçiş Sistemi',
+                    ucretAraligi: '₺' + (Math.floor(Math.random() * 4000) + 1500).toLocaleString('tr-TR') + ' / Ay',
+                    aciklama: d + ', öğrencilerin ders çalışabileceği sessiz etüt salonları, dinlenme odaları, çamaşırhane ve hijyenik yaşam alanlarıyla ev konforunda bir barınma deneyimi sağlar.'
+                }
+            }));
+        }
+
+        function switchInfoCategory(category) {
+            ['uni', 'dept', 'dorm'].forEach(cat => {
+                const btn = document.getElementById(`info-tab-${cat}`);
+                if(btn) {
+                    btn.className = (cat === category) 
+                        ? "px-4 py-2 rounded-lg text-xs font-bold bg-white text-brand-600 shadow-sm transition cursor-pointer"
+                        : "px-4 py-2 rounded-lg text-xs font-medium text-gray-600 transition cursor-pointer hover:text-gray-900";
+                }
+            });
+            renderInfoCards(infoData[category]);
+        }
+
+        function renderInfoCards(list) {
+            const grid = document.getElementById('info-cards-grid');
+            if(!grid) return;
+
+            grid.innerHTML = list.map(item => {
+                let imgSection = item.img ? `<div class="h-48 overflow-hidden bg-gray-100 relative"><img src="${item.img}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300"></div>` : '';
+                const itemStr = JSON.stringify(item).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+                return `
+                    <div onclick='openFullScreenInfo(${itemStr})' class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition cursor-pointer overflow-hidden flex flex-col group">
+                        ${imgSection}
+                        <div class="p-6 flex flex-col flex-1 justify-between">
+                            <div>
+                                <h3 class="font-bold text-gray-900 text-lg mb-2">${item.name}</h3>
+                                <p class="text-xs text-gray-600 leading-relaxed mb-4">${item.summary}</p>
+                            </div>
+                            <span class="text-xs font-bold text-brand-600 flex items-center gap-1">Tam Ekran Detayları İncele &rarr;</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openFullScreenInfo(item) {
+            const container = document.getElementById('info-detail-container');
+            let imgHtml = item.img ? `<div class="h-80 w-full overflow-hidden"><img src="${item.img}" class="w-full h-full object-cover"></div>` : '';
+            
+            let statsHtml = '';
+            if (item.details) {
+                statsHtml = Object.keys(item.details).map(key => {
+                    let label = key.replace(/([A-Z])/g, ' $1').toUpperCase();
+                    return `<div class="bg-gray-50 p-4 rounded-2xl border border-gray-100"><p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">${label}</p><p class="text-sm font-bold text-gray-900">${item.details[key]}</p></div>`;
+                }).join('');
+            }
+
+            container.innerHTML = `
+                ${imgHtml}
+                <div class="p-8 sm:p-12 space-y-8">
+                    <div>
+                        <span class="bg-brand-50 text-brand-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Kapsamlı Rehber Bilgisi</span>
+                        <h1 class="text-3xl font-bold text-gray-900 mt-3 mb-4">${item.name}</h1>
+                        <p class="text-base text-gray-600 leading-relaxed">${item.summary}</p>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-4 border-t border-gray-100">${statsHtml}</div>
+                    <div class="bg-brand-50 p-6 rounded-2xl border border-brand-200">
+                        <h3 class="font-bold text-gray-900 text-lg mb-2">Detaylı Kurum / Özellik Analizi</h3>
+                        <p class="text-sm text-gray-700 leading-relaxed">${item.details.aciklama || item.summary}</p>
+                    </div>
+                </div>
+            `;
+            showView('view-info-detail');
+        }
+
+        function initRankingFilters() {
+            const rUni = document.getElementById('ranking-filter-uni');
+            const rDept = document.getElementById('ranking-filter-dept');
+            if(rUni) rUni.innerHTML = `<option value="">Tümü</option>` + universities.map(u => `<option value="${u}">${u}</option>`).join('');
+            if(rDept) rDept.innerHTML = `<option value="">Tümü</option>` + departments.map(d => `<option value="${d}">${d}</option>`).join('');
+            applyRankingFilters();
+        }
+
+        function toggleRankingRange() {
+            const sortVal = document.getElementById('ranking-sort-select').value;
+            const rangeContainer = document.getElementById('ranking-range-container');
+            if (sortVal === 'range') {
+                rangeContainer.classList.remove('hidden');
+            } else {
+                rangeContainer.classList.add('hidden');
+                document.getElementById('ranking-min-rank').value = '';
+                document.getElementById('ranking-max-rank').value = '';
+            }
+        }
+
+        function applyRankingFilters() {
+            const fUni = document.getElementById('ranking-filter-uni').value;
+            const fDept = document.getElementById('ranking-filter-dept').value;
+            const fScore = document.getElementById('ranking-filter-score').value;
+            const sortVal = document.getElementById('ranking-sort-select') ? document.getElementById('ranking-sort-select').value : 'rank-asc';
+            const minRank = parseInt(document.getElementById('ranking-min-rank').value) || 0;
+            const maxRank = parseInt(document.getElementById('ranking-max-rank').value) || Infinity;
+
+            let filtered = mockRankings.filter(item => {
+                if (fUni && item.uni !== fUni) return false;
+                if (fDept && item.dept !== fDept) return false;
+                if (fScore && item.scoreType !== fScore) return false;
+                if (sortVal === 'range' && (item.rank < minRank || item.rank > maxRank)) return false;
+                return true;
+            });
+
+            filtered.sort((a, b) => {
+                if (sortVal === 'rank-asc' || sortVal === 'range') return a.rank - b.rank;
+                if (sortVal === 'quota-desc') return b.quota - a.quota;
+                return 0;
+            });
+
+            renderRankings(filtered);
+        }
+
+        function renderRankings(data) {
+            const tbody = document.getElementById('rankings-tbody');
+            if(!tbody) return;
+
+            if(data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-gray-400">Aradığınız kriterlere uygun program bulunamadı.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = data.map(item => `
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="py-4 px-4 font-bold text-gray-900">${item.uni}</td>
+                    <td class="py-4 px-4">${item.dept}</td>
+                    <td class="py-4 px-4 w-28"><span class="bg-gray-100 text-gray-700 text-xs font-bold px-2 py-1 rounded-md">${item.scoreType}</span></td>
+                    <td class="py-4 px-4 w-32 font-bold text-brand-700">${item.rank.toLocaleString('tr-TR')}</td>
+                    <td class="py-4 px-1 w-20 text-gray-600">${item.quota}</td>
+                    <td class="py-4 px-2 text-right w-36">
+                        <button onclick="addToPreferenceList(this, '${item.uni}', '${item.dept}')" class="pref-btn bg-brand-50 hover:bg-brand-400 text-brand-700 hover:text-gray-900 text-xs font-bold px-2.5 py-1.5 rounded-xl transition cursor-pointer border border-brand-200 whitespace-nowrap">
+                            Tercih Listeme Ekle
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function addToPreferenceList(btn, uni, dept) {
+            btn.className = "pref-btn bg-green-100 text-green-700 border border-green-200 text-xs font-bold px-2.5 py-1.5 rounded-xl whitespace-nowrap";
+            btn.innerText = "Listeye Eklendi ✓";
+            btn.disabled = true;
+            
+            if(!userPreferences.some(p => p.uni === uni && p.dept === dept)) {
+                userPreferences.push({ uni, dept });
+            }
+            showToast(`${uni} - ${dept} tercih listenize eklendi!`);
+        }
+
+        function openPreferenceListModal() {
+            const listContainer = document.getElementById('preference-modal-list');
+            if (userPreferences.length === 0) {
+                listContainer.innerHTML = `<div class="text-center py-8 text-gray-400 text-sm">Henüz tercih listenize eklenmiş bir program bulunmuyor. Sıralama tablosundan ekleme yapabilirsiniz.</div>`;
+            } else {
+                listContainer.innerHTML = userPreferences.map((pref, idx) => `
+                    <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 flex items-center justify-between gap-4">
+                        <div>
+                            <span class="text-[10px] font-bold text-brand-600 uppercase tracking-wider">Tercih #${idx + 1}</span>
+                            <h4 class="font-bold text-gray-900 text-sm mt-0.5">${pref.uni}</h4>
+                            <p class="text-xs text-gray-500">${pref.dept}</p>
+                        </div>
+                        <button onclick="removeFromPreferenceList('${pref.uni}', '${pref.dept}')" class="text-xs text-red-500 hover:text-red-700 font-bold px-3 py-1.5 bg-red-50 hover:bg-red-100 rounded-xl transition cursor-pointer">Kaldır</button>
+                    </div>
+                `).join('');
+            }
+            showModal('preference-modal');
+        }
+
+        function removeFromPreferenceList(uni, dept) {
+            userPreferences = userPreferences.filter(p => !(p.uni === uni && p.dept === dept));
+            openPreferenceListModal();
+            showToast("Program tercih listenizden kaldırıldı.");
+        }
+
+        function showToast(message) {
+            let toast = document.getElementById('custom-toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'custom-toast';
+                toast.className = 'fixed bottom-6 right-6 z-50 bg-gray-900 text-white text-xs font-bold px-5 py-3 rounded-2xl shadow-2xl transition-all duration-300 flex items-center gap-2 transform translate-y-10 opacity-0';
+                document.body.appendChild(toast);
+            }
+            toast.innerHTML = `<svg class="w-4 h-4 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>${message}</span>`;
+            setTimeout(() => toast.classList.remove('translate-y-10', 'opacity-0'), 10);
+            setTimeout(() => toast.classList.add('translate-y-10', 'opacity-0'), 3000);
+        }
+
+        function initCommentFilters() {
+            const cUni = document.getElementById('comment-filter-uni');
+            const cDept = document.getElementById('comment-filter-dept');
+            const cCity = document.getElementById('comment-filter-city');
+            const cClass = document.getElementById('comment-filter-class');
+            if(cUni) cUni.innerHTML = `<option value="">Tümü</option>` + universities.map(u => `<option value="${u}">${u}</option>`).join('');
+            if(cDept) cDept.innerHTML = `<option value="">Tümü</option>` + departments.map(d => `<option value="${d}">${d}</option>`).join('');
+            if(cCity) cCity.innerHTML = `<option value="">Tüm Şehirler</option>` + cities.map(c => `<option value="${c}">${c}</option>`).join('');
+            if(cClass) cClass.innerHTML = `<option value="">Tümü</option>` + classUni.map(cl => `<option value="${cl}">${cl}</option>`).join('');
+            renderComments(mockComments);
+        }
+
+        function initForumFilters() {
+            const fUni = document.getElementById('forum-filter-uni');
+            const fDept = document.getElementById('forum-filter-dept');
+            const fCity = document.getElementById('forum-filter-city');
+            const fClass = document.getElementById('forum-filter-class');
+            if(fUni) fUni.innerHTML = `<option value="">Tümü</option>` + universities.map(u => `<option value="${u}">${u}</option>`).join('');
+            if(fDept) fDept.innerHTML = `<option value="">Tümü</option>` + departments.map(d => `<option value="${d}">${d}</option>`).join('');
+            if(fCity) fCity.innerHTML = `<option value="">Tüm Şehirler</option>` + cities.map(c => `<option value="${c}">${c}</option>`).join('');
+            if(fClass) fClass.innerHTML = `<option value="">Tümü</option>` + classUni.map(cl => `<option value="${cl}">${cl}</option>`).join('');
+            renderForumTopics(mockForumTopics);
+        }
+
+        function applyCommentFilters() {
+            renderComments(mockComments);
+        }
+        function applyForumFilters() {
+            renderForumTopics(mockForumTopics);
+        }
+
+        function renderComments(data) {
+            const container = document.getElementById('comments-container');
+            if(!container) return;
+            container.innerHTML = data.map(c => `
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="font-bold text-gray-900">${c.uni} • ${c.dept}</h3>
+                            <p class="text-xs text-gray-500">Doğrulanmış Öğrenci (${c.name}) • ${c.studentClass} • ${c.city} • Konaklama: <span class="font-medium text-brand-700">${c.dormType} (${c.dormDetail})</span></p>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <div class="flex items-center gap-1.5 bg-green-100 text-green-700 text-xs px-2.5 py-1 rounded-full font-bold"><span>${c.rating} Puan</span></div>
+                            <span class="text-xs font-bold text-black mt-1">${c.voteCount} değerlendirme</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed">"${c.text}"</p>
+                </div>
+            `).join('');
+        }
+
+        function renderForumTopics(data) {
+            const container = document.getElementById('forum-container');
+            if(!container) return;
+            container.innerHTML = data.map(topic => `
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4 hover:border-brand-300 transition cursor-pointer" onclick="openForumDetail(${topic.id})">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-base">${topic.title}</h3>
+                            <p class="text-xs text-gray-500 mt-1">Gönderen: ${topic.author} • ${topic.uni} • ${topic.city} • ${topic.time}</p>
+                        </div>
+                        <span class="bg-brand-50 text-brand-700 text-xs px-3 py-1.5 rounded-xl font-bold">${topic.repliesCount} Yanıt</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openForumDetail(topicId) {
+            let topic = mockForumTopics.find(t => t.id === topicId);
+            if(!topic) return;
+            document.getElementById('forum-modal-content').innerHTML = `
+                <h2 class="text-xl font-bold text-gray-900 mb-2">${topic.title}</h2>
+                <p class="text-xs text-gray-500 mb-4">Gönderen: ${topic.author} • ${topic.uni}</p>
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                    <p class="text-xs text-gray-700">Kesinlikle tavsiye ederim, kayıt ve başvuru süreci çok kolay ilerliyor.</p>
+                </div>
+            `;
+            showModal('forum-detail-modal');
+        }
+
+        function showView(viewId) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            const targetView = document.getElementById(viewId);
+            if (targetView) {
+                targetView.classList.remove('hidden');
+                window.scrollTo(0, 0);
+            } else {
+                document.getElementById('view-home').classList.remove('hidden');
+            }
+        }
+
+        function switchCategoryAndNav(category) {
+            showView('view-consultants');
+            filterCategory(category);
+        }
+
+        function filterCategory(category) {
+            currentCategory = category;
+            ['university', 'highschool', 'work'].forEach(cat => {
+                const btn = document.getElementById(`tab-${cat}`);
+                if(btn) {
+                    btn.className = (cat === category) 
+                        ? "px-4 py-2 rounded-lg text-xs font-bold bg-white text-brand-600 shadow-sm transition cursor-pointer"
+                        : "px-4 py-2 rounded-lg text-xs font-medium text-gray-600 transition cursor-pointer hover:text-gray-900";
+                }
+            });
+
+            const titleEl = document.getElementById('category-title');
+            const labelUni = document.getElementById('label-uni');
+            const inputUni = document.getElementById('filter-uni');
+            const labelDept = document.getElementById('label-dept');
+            const inputDept = document.getElementById('filter-dept');
+            const labelClass = document.getElementById('label-class');
+            const selectClass = document.getElementById('filter-class');
+            const langContainer = document.getElementById('filter-lang-container');
+            const dynamicTagsBox = document.getElementById('dynamic-tags');
+
+            if (category === 'university') {
+                titleEl.innerText = 'Üniversite Danışmanları Filtrele';
+                labelUni.innerText = 'Üniversite';
+                labelDept.innerText = 'Bölüm';
+                labelClass.innerText = 'Sınıf';
+                selectClass.innerHTML = `<option value="">Tümü</option>` + classUni.map(c => `<option value="${c}">${c}</option>`).join('');
+                langContainer.classList.remove('hidden');
+                dynamicTagsBox.innerHTML = tagsUni.map(t => createTagHTML(t)).join('');
+                currentDataList = uniList;
+            } else if (category === 'highschool') {
+                titleEl.innerText = 'Lise Danışmanları Filtrele';
+                labelUni.innerText = 'Lise';
+                labelDept.innerText = 'Alan';
+                labelClass.innerText = 'Sınıf';
+                selectClass.innerHTML = `<option value="">Tümü</option>` + classHs.map(c => `<option value="${c}">${c}</option>`).join('');
+                langContainer.classList.remove('hidden');
+                dynamicTagsBox.innerHTML = tagsHs.map(t => createTagHTML(t)).join('');
+                currentDataList = hsList;
+            } else {
+                titleEl.innerText = 'İş / Kariyer Danışmanları Filtrele';
+                labelUni.innerText = 'Şirket';
+                labelDept.innerText = 'Pozisyon';
+                labelClass.innerText = 'Deneyim';
+                selectClass.innerHTML = `<option value="">Tümü</option>` + classWork.map(c => `<option value="${c}">${c}</option>`).join('');
+                langContainer.classList.add('hidden');
+                dynamicTagsBox.innerHTML = tagsWork.map(t => createTagHTML(t)).join('');
+                currentDataList = workList;
+            }
+
+            const instSet = new Set(), deptSet = new Set();
+            currentDataList.forEach(item => { instSet.add(item.u); deptSet.add(item.d); });
+            inputUni.innerHTML = `<option value="">Tümü</option>` + Array.from(instSet).sort().map(i => `<option value="${i}">${i}</option>`).join('');
+            inputDept.innerHTML = `<option value="">Tümü</option>` + Array.from(deptSet).sort().map(d => `<option value="${d}">${d}</option>`).join('');
+            applyFilters();
+        }
+
+        function createTagHTML(tagText) {
+            return `
+                <label class="inline-flex items-center bg-white border border-gray-200 px-3 py-1.5 rounded-xl cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition shadow-sm">
+                    <input type="checkbox" value="${tagText}" onchange="applyFilters()" class="tag-checkbox w-4 h-4 text-brand-600 rounded border-gray-300 focus:ring-brand-500 mr-2">
+                    <span class="text-xs font-medium text-gray-700">${tagText}</span>
+                </label>
+            `;
+        }
+
+        function applyFilters() {
+            const fUni = document.getElementById('filter-uni').value.toLowerCase();
+            const fDept = document.getElementById('filter-dept').value.toLowerCase();
+            const fCity = document.getElementById('filter-city').value;
+            const fClass = document.getElementById('filter-class').value;
+            const fLangEl = document.getElementById('filter-lang');
+            const fLang = (currentCategory !== 'work' && fLangEl) ? fLangEl.value : '';
+            const fAvail = document.getElementById('filter-availability').value;
+            const fPriceMin = document.getElementById('filter-price-min').value;
+            const fPriceMax = document.getElementById('filter-price-max').value;
+            const fRating = parseFloat(document.getElementById('filter-rating').value) || 0;
+            const sortBy = document.getElementById('sort-select').value;
+            const selectedTags = Array.from(document.querySelectorAll('.tag-checkbox:checked')).map(cb => cb.value);
+
+            let filtered = currentDataList.filter(item => {
+                if (fUni && !item.u.toLowerCase().includes(fUni)) return false;
+                if (fDept && !item.d.toLowerCase().includes(fDept)) return false;
+                if (fCity && item.city !== fCity) return false;
+                if (fClass && item.c !== fClass) return false;
+                if (fLang && item.lang !== fLang) return false;
+                if (fAvail && item.avail !== fAvail) return false;
+                if (fPriceMin && item.price < parseInt(fPriceMin)) return false;
+                if (fPriceMax && item.price > parseInt(fPriceMax)) return false;
+                if (item.rating < fRating) return false;
+                if (selectedTags.length > 0 && !selectedTags.every(tag => item.tags.includes(tag))) return false;
+                return true;
+            });
+
+            filtered.sort((a, b) => {
+                if (sortBy === 'rating-desc') return parseFloat(b.rating) - parseFloat(a.rating);
+                if (sortBy === 'price-asc') return a.price - b.price;
+                if (sortBy === 'price-desc') return b.price - a.price;
+                if (sortBy === 'meetings-desc') return b.meetings - a.meetings;
+                return 0;
+            });
+
+            renderGrid(filtered);
+        }
+
+        function renderGrid(data) {
+            const grid = document.getElementById('consultants-grid');
+            const noRes = document.getElementById('no-results');
+            grid.innerHTML = '';
+            if (data.length === 0) {
+                grid.classList.add('hidden');
+                noRes.classList.remove('hidden');
+                return;
+            }
+            grid.classList.remove('hidden');
+            noRes.classList.add('hidden');
+
+            data.forEach(item => {
+                const tagsHtml = item.tags.map(t => `<span class="bg-gray-100 text-gray-600 text-[10px] px-2 py-1 rounded-md font-medium">${t}</span>`).join('');
+                const card = document.createElement('div');
+                card.className = "bg-white border border-gray-100 rounded-2xl p-5 hover:shadow-xl transition-shadow cursor-pointer flex flex-col group relative overflow-hidden";
+                card.onclick = () => openProfile(item);
+                card.innerHTML = `
+                    <div class="absolute top-0 right-0 w-2 h-full bg-brand-400 transform translate-x-2 group-hover:translate-x-0 transition-transform"></div>
+                    <div class="flex items-start gap-4 mb-4">
+                        <img src="${item.img}" class="w-16 h-16 rounded-full object-cover border border-gray-200">
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start">
+                                <h3 class="font-bold text-gray-900">${item.n}</h3>
+                                <span class="bg-brand-50 text-brand-700 text-xs font-bold px-2 py-1 rounded-md">₺${item.price}</span>
+                            </div>
+                            <p class="text-xs text-brand-600 font-medium line-clamp-1 mt-1">${item.u}</p>
+                            <p class="text-xs text-gray-500 line-clamp-1">${item.d} • ${item.c}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 mb-4 text-xs text-gray-500">
+                        <div>${item.city}</div>
+                        <div class="text-yellow-600 font-bold">${item.rating}</div>
+                        <div>${item.avail}</div>
+                    </div>
+                    <div class="flex flex-wrap gap-1 mt-auto">${tagsHtml}</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        let currentProfile = null;
+        function openProfile(item) {
+            currentProfile = item;
+            selectedSlotTime = null;
+            document.getElementById('selected-slot-text').innerText = "Henüz seçilmedi";
+            document.querySelectorAll('.slot-btn').forEach(b => {
+                b.classList.remove('bg-brand-400', 'text-white');
+                b.classList.add('bg-brand-50', 'text-brand-700');
+            });
+            document.getElementById('detail-name').innerText = item.n;
+            document.getElementById('detail-img').src = item.img;
+            document.getElementById('detail-city').innerText = item.city;
+            document.getElementById('detail-price').innerText = `₺${item.price}`;
+            document.getElementById('detail-edu').innerText = `${item.u} - ${item.d} (${item.c})`;
+            document.getElementById('detail-rating').innerText = item.rating;
+            document.getElementById('detail-reviews').innerText = `(${item.reviews} değerlendirme)`;
+            document.getElementById('detail-meetings').innerText = `${item.meetings} Görüşme`;
+            document.getElementById('detail-tags').innerHTML = item.tags.map(t => `<span class="bg-brand-50 text-brand-700 text-xs px-3 py-1.5 rounded-xl font-medium border border-brand-200">${t}</span>`).join('');
+            document.getElementById('detail-bio').innerHTML = `<p class="text-gray-600 text-sm leading-relaxed">Merhaba! Ben ${item.n}. ${item.u} bünyesinde ${item.d} alanında eğitim alıyorum. Doğru yönlendirme ve deneyim paylaşımıyla kariyer yolculuğunuza rehberlik etmek için buradayım.</p>`;
+            showView('view-profile');
+        }
+
+        function selectSlot(btn, timeStr) {
+            document.querySelectorAll('.slot-btn').forEach(b => {
+                b.classList.remove('bg-brand-400', 'text-white');
+                b.classList.add('bg-brand-50', 'text-brand-700');
+            });
+            btn.classList.remove('bg-brand-50', 'text-brand-700');
+            btn.classList.add('bg-brand-400', 'text-white');
+            selectedSlotTime = timeStr;
+            document.getElementById('selected-slot-text').innerText = timeStr;
+        }
+
+        function bookAppointment() {
+            if (!selectedSlotTime) {
+                alert("Lütfen randevu için bir zaman aralığı seçin.");
+                return;
+            }
+            userAppointments.push({
+                id: Date.now(),
+                consultantName: currentProfile.n,
+                consultantEdu: currentProfile.u + " - " + currentProfile.d,
+                img: currentProfile.img,
+                time: selectedSlotTime,
+                price: currentProfile.price,
+                status: "Onaylandı"
+            });
+            showToast("Randevunuz başarı ile oluşturuldu!");
+        }
+
+        function openAppointmentsModal() {
+            const listContainer = document.getElementById('appointments-modal-list');
+            if (userAppointments.length === 0) {
+                listContainer.innerHTML = `<div class="text-center py-8 text-gray-400 text-sm">Henüz oluşturulmuş bir randevunuz bulunmuyor.</div>`;
+            } else {
+                listContainer.innerHTML = userAppointments.map(app => `
+                    <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-3">
+                            <img src="${app.img}" class="w-12 h-12 rounded-full object-cover">
+                            <div>
+                                <h4 class="font-bold text-gray-900 text-sm">${app.consultantName}</h4>
+                                <p class="text-xs text-brand-700">${app.consultantEdu}</p>
+                                <p class="text-[11px] text-gray-500 mt-1">Zaman: <span class="font-bold">${app.time}</span></p>
+                            </div>
+                        </div>
+                        <span class="bg-green-100 text-green-700 text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap">${app.status}</span>
+                    </div>
+                `).join('');
+            }
+            showModal('appointments-modal');
+        }
+
+        function showModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+    </script>
+</body>
+</html>
