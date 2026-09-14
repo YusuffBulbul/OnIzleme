@@ -169,11 +169,11 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     </button>
                     <div class="relative group">
-                        <button class="flex items-center gap-3 focus:outline-none cursor-pointer py-2">
+                        <button onclick="toggleProfileMenu()" class="flex items-center gap-3 focus:outline-none cursor-pointer py-2">
                             <span class="text-sm font-bold text-gray-800 hidden sm:inline">Ahmet Demir</span>
-                            <img onclick="showModal('auth-modal')" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="w-10 h-10 rounded-full border-2 border-brand-400 object-cover shadow-sm cursor-pointer" title="Giriş / Kayıt">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="w-10 h-10 rounded-full border-2 border-brand-400 object-cover shadow-sm cursor-pointer" title="Kullanıcı menüsü">
                         </button>
-                        <div class="absolute right-0 top-14 w-52 bg-white border border-gray-200 rounded-xl shadow-lg hidden group-hover:block p-2 z-50">
+                        <div id="profile-menu" class="absolute right-0 top-14 w-52 bg-white border border-gray-200 rounded-xl shadow-lg hidden group-hover:block p-2 z-50">
                             <div class="px-4 py-2 border-b border-gray-100">
                                 <p class="text-xs font-bold text-gray-900">Ahmet Demir</p>
                                 <p class="text-[10px] text-gray-500">Öğrenci / Danışan</p>
@@ -1669,6 +1669,11 @@
             closeMobileMenu();
         }
 
+        function toggleProfileMenu() {
+            const menu = document.getElementById('profile-menu');
+            if (menu) menu.classList.toggle('hidden');
+        }
+
         function goBackView() {
             history.back();
         }
@@ -1912,11 +1917,27 @@
                 alert("Lütfen randevu için bir zaman aralığı seçin.");
                 return;
             }
-            const total = currentProfile.price + 25;
-            document.getElementById('payment-summary').innerHTML = `<div class="flex justify-between"><span>Danışman</span><strong>${currentProfile.n}</strong></div><div class="flex justify-between mt-2"><span>Zaman</span><strong>${selectedSlotTime}</strong></div><div class="flex justify-between mt-2"><span>Görüşme süresi</span><strong>30 dakika</strong></div><div class="flex justify-between mt-2"><span>Hizmet bedeli</span><strong>₺${currentProfile.price}</strong></div>`;
+            const appointment = { id: Date.now(), consultantName: currentProfile.n, consultantEdu: currentProfile.u + " - " + currentProfile.d, img: currentProfile.img, time: selectedSlotTime, price: currentProfile.price, status: "Talep edildi", meetingLink: "" };
+            userAppointments.push(appointment);
+            localStorage.setItem('karar-noktasi-appointments', JSON.stringify(userAppointments));
+            showToast('Randevu talebiniz danışmana gönderildi.');
+            openAppointmentsModal();
+        }
+
+        function acceptAppointment(id) {
+            const appointment = userAppointments.find(item => item.id === id);
+            if (!appointment) return;
+            appointment.status = 'Ödeme bekliyor';
+            localStorage.setItem('karar-noktasi-appointments', JSON.stringify(userAppointments));
+            openPaymentForAppointment(appointment);
+        }
+
+        function openPaymentForAppointment(appointment) {
+            const total = appointment.price + 25;
+            document.getElementById('payment-summary').innerHTML = `<div class="flex justify-between"><span>Danışman</span><strong>${appointment.consultantName}</strong></div><div class="flex justify-between mt-2"><span>Zaman</span><strong>${appointment.time}</strong></div><div class="flex justify-between mt-2"><span>Görüşme süresi</span><strong>30 dakika</strong></div><div class="flex justify-between mt-2"><span>Hizmet bedeli</span><strong>₺${appointment.price}</strong></div>`;
             document.getElementById('payment-total').innerText = `₺${total}`;
             document.getElementById('payment-feedback').innerText = '';
-            window.pendingAppointment = { id: Date.now(), consultantName: currentProfile.n, consultantEdu: currentProfile.u + " - " + currentProfile.d, img: currentProfile.img, time: selectedSlotTime, price: currentProfile.price, status: "Ödeme bekliyor", meetingLink: "" };
+            window.pendingAppointment = appointment;
             showModal('payment-modal');
         }
 
@@ -1930,7 +1951,6 @@
             }
             window.pendingAppointment.status = 'Onaylandı';
             window.pendingAppointment.meetingLink = 'https://meet.google.com/karar-noktasi-demo';
-            userAppointments.push(window.pendingAppointment);
             localStorage.setItem('karar-noktasi-appointments', JSON.stringify(userAppointments));
             closeModal('payment-modal');
             showToast('Ödeme başarılı, randevunuz onaylandı.');
@@ -1952,7 +1972,7 @@
                                 <p class="text-[11px] text-gray-500 mt-1">Zaman: <span class="font-bold">${app.time}</span></p>
                             </div>
                         </div>
-                        <div class="flex flex-col items-end gap-2"><span class="${app.status === 'İptal edildi' ? 'bg-red-100 text-red-700' : app.status === 'Tamamlandı' ? 'bg-gray-200 text-gray-700' : 'bg-green-100 text-green-700'} text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap">${app.status}</span>${app.status === 'Onaylandı' ? `<a href="${app.meetingLink}" target="_blank" class="text-xs font-bold text-brand-700">Görüşmeye Katıl</a><button onclick="markAppointmentCompleted(${app.id})" class="text-xs font-bold text-gray-500">Tamamlandı işaretle</button><button onclick="cancelAppointment(${app.id})" class="text-xs font-bold text-red-500">İptal et</button>` : app.status === 'Tamamlandı' ? `<button onclick="openReviewModal(${app.id})" class="text-xs font-bold text-brand-700">Değerlendir</button>` : ''}</div>
+                        <div class="flex flex-col items-end gap-2"><span class="${app.status === 'İptal edildi' ? 'bg-red-100 text-red-700' : app.status === 'Tamamlandı' ? 'bg-gray-200 text-gray-700' : app.status === 'Talep edildi' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'} text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap">${app.status}</span>${app.status === 'Talep edildi' ? `<button onclick="acceptAppointment(${app.id})" class="text-xs font-bold text-green-700">Danışman kabul etti</button><button onclick="cancelAppointment(${app.id})" class="text-xs font-bold text-red-500">Talebi iptal et</button>` : app.status === 'Ödeme bekliyor' ? `<button onclick="openPaymentForAppointment(userAppointments.find(item => item.id === ${app.id}))" class="text-xs font-bold text-brand-700">Ödeme yap</button>` : app.status === 'Onaylandı' ? `<a href="${app.meetingLink}" target="_blank" class="text-xs font-bold text-brand-700">Görüşmeye Katıl</a><button onclick="markAppointmentCompleted(${app.id})" class="text-xs font-bold text-gray-500">Tamamlandı işaretle</button><button onclick="cancelAppointment(${app.id})" class="text-xs font-bold text-red-500">İptal et</button>` : app.status === 'Tamamlandı' ? `<button onclick="openReviewModal(${app.id})" class="text-xs font-bold text-brand-700">Değerlendir</button>` : ''}</div>
                     </div>
                 `).join('');
             }
