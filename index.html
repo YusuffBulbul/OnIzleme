@@ -171,7 +171,7 @@
                     <div class="relative group">
                         <button class="flex items-center gap-3 focus:outline-none cursor-pointer py-2">
                             <span class="text-sm font-bold text-gray-800 hidden sm:inline">Ahmet Demir</span>
-                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="w-10 h-10 rounded-full border-2 border-brand-400 object-cover shadow-sm">
+                            <img onclick="showModal('auth-modal')" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="w-10 h-10 rounded-full border-2 border-brand-400 object-cover shadow-sm cursor-pointer" title="Giriş / Kayıt">
                         </button>
                         <div class="absolute right-0 top-14 w-52 bg-white border border-gray-200 rounded-xl shadow-lg hidden group-hover:block p-2 z-50">
                             <div class="px-4 py-2 border-b border-gray-100">
@@ -181,6 +181,9 @@
                             <button onclick="showView('view-user-profile')" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brand-50 rounded-lg font-medium mt-1 cursor-pointer">Profil İşlemleri</button>
                             <button onclick="openAppointmentsModal()" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brand-50 rounded-lg font-medium cursor-pointer">Randevularım</button>
                             <button onclick="openPreferenceListModal()" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brand-50 rounded-lg font-medium cursor-pointer">Tercih Listem</button>
+                            <button onclick="openNotificationsModal()" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brand-50 rounded-lg font-medium cursor-pointer">Bildirimler <span id="notification-count" class="float-right bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full">2</span></button>
+                            <button onclick="showView('view-admin')" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brand-50 rounded-lg font-medium cursor-pointer">Admin Paneli</button>
+                            <button onclick="showModal('application-modal')" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brand-50 rounded-lg font-medium cursor-pointer">Danışman Başvurusu</button>
                             <div class="border-t border-gray-100 my-1"></div>
                             <button onclick="showModal('auth-modal')" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg font-medium cursor-pointer">Çıkış Yap</button>
                         </div>
@@ -377,7 +380,7 @@
     <div id="view-consultants" class="view-section hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-8">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                <h2 id="category-title" class="text-xl sm:text-2xl font-bold text-gray-900">Üniversite Danışmanları Filtrele</h2>
+                <div><h2 id="category-title" class="text-xl sm:text-2xl font-bold text-gray-900">Üniversite Danışmanları Filtrele</h2><input id="consultant-search" oninput="applyFilters()" placeholder="Danışman veya bölüm ara..." class="mt-3 w-full sm:w-72 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-400"></div>
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
                     <div class="flex items-center gap-2 w-full sm:w-auto">
                         <label class="text-xs font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap">Sırala:</label>
@@ -628,7 +631,7 @@
                             <option value="rating-desc">En Çok Puan Alan</option>
                         </select>
                     </div>
-                    <button onclick="alert('Forumda soru sormak için giriş yapmalısınız.')" class="bg-brand-400 text-gray-900 font-bold px-5 py-2.5 rounded-xl hover:bg-brand-500 transition cursor-pointer text-xs whitespace-nowrap">Soru Sor</button>
+                    <button onclick="showModal('question-modal')" class="bg-brand-400 text-gray-900 font-bold px-5 py-2.5 rounded-xl hover:bg-brand-500 transition cursor-pointer text-xs whitespace-nowrap">Soru Sor</button>
                 </div>
             </div>
 
@@ -798,6 +801,28 @@
         </div>
     </div>
 
+    <!-- Basit admin paneli onizlemesi -->
+    <div id="view-admin" class="view-section hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <div class="flex items-start justify-between gap-4 mb-8">
+            <div>
+                <p class="text-xs font-bold uppercase tracking-wider text-brand-600 mb-2">Yönetim Merkezi</p>
+                <h1 class="text-2xl font-bold text-gray-900">Admin Paneli</h1>
+                <p class="text-sm text-gray-500 mt-1">Başvuruları, randevuları ve moderasyon kuyruğunu yönetin.</p>
+            </div>
+            <span class="bg-green-100 text-green-700 px-3 py-1.5 rounded-full text-xs font-bold">Sistem aktif</span>
+        </div>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div class="bg-white border border-gray-100 rounded-2xl p-5"><p class="text-xs text-gray-500">Toplam kullanıcı</p><p class="text-2xl font-bold text-gray-900 mt-2">1.248</p></div>
+            <div class="bg-white border border-gray-100 rounded-2xl p-5"><p class="text-xs text-gray-500">Onay bekleyen</p><p class="text-2xl font-bold text-brand-600 mt-2">12</p></div>
+            <div class="bg-white border border-gray-100 rounded-2xl p-5"><p class="text-xs text-gray-500">Aktif randevu</p><p class="text-2xl font-bold text-gray-900 mt-2">86</p></div>
+            <div class="bg-white border border-gray-100 rounded-2xl p-5"><p class="text-xs text-gray-500">Bu ay gelir</p><p class="text-2xl font-bold text-gray-900 mt-2">₺42.680</p></div>
+        </div>
+        <div class="bg-white border border-gray-100 rounded-2xl overflow-hidden">
+            <div class="p-5 border-b border-gray-100 flex items-center justify-between"><h2 class="font-bold text-gray-900">Son danışman başvuruları</h2><span class="text-xs text-gray-500">Demo verisi</span></div>
+            <div class="divide-y divide-gray-100" id="admin-application-list"></div>
+        </div>
+    </div>
+
     <!-- Randevularım Modalı -->
     <div id="appointments-modal" class="hidden fixed inset-0 bg-white z-50 overflow-y-auto">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
@@ -821,14 +846,43 @@
     </div>
 
     <!-- Modals -->
-    <div id="auth-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm">
-        <div class="bg-white rounded-2xl p-8 max-w-sm w-full relative shadow-2xl">
+    <div id="auth-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm p-4">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full relative shadow-2xl">
             <button onclick="closeModal('auth-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 cursor-pointer">&times;</button>
-            <h2 class="text-2xl font-bold text-center mb-6">Giriş Yap</h2>
-            <input type="email" placeholder="E-posta adresiniz" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 mb-4 text-sm focus:outline-none focus:border-brand-400">
-            <button onclick="closeModal('auth-modal'); alert('Giriş yapıldı!')" class="w-full bg-gray-900 text-white font-bold py-3 rounded-xl hover:bg-gray-800 transition cursor-pointer">Devam Et</button>
+            <div class="flex gap-2 bg-gray-100 p-1 rounded-xl mb-6">
+                <button onclick="switchAuthMode('login')" id="auth-login-tab" class="flex-1 py-2 rounded-lg text-xs font-bold bg-white shadow-sm text-brand-700">Giriş Yap</button>
+                <button onclick="switchAuthMode('register')" id="auth-register-tab" class="flex-1 py-2 rounded-lg text-xs font-bold text-gray-500">Kayıt Ol</button>
+            </div>
+            <h2 id="auth-title" class="text-2xl font-bold text-center mb-6">Giriş Yap</h2>
+            <div id="auth-name-field" class="hidden"><label class="block text-xs font-bold text-gray-500 mb-2">Ad Soyad</label><input id="auth-name" type="text" placeholder="Adınız ve soyadınız" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 mb-4 text-sm focus:outline-none focus:border-brand-400"></div>
+            <label class="block text-xs font-bold text-gray-500 mb-2">E-posta</label>
+            <input id="auth-email" type="email" placeholder="E-posta adresiniz" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 mb-4 text-sm focus:outline-none focus:border-brand-400">
+            <label class="block text-xs font-bold text-gray-500 mb-2">Şifre</label>
+            <input id="auth-password" type="password" placeholder="En az 6 karakter" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 mb-4 text-sm focus:outline-none focus:border-brand-400">
+            <div id="auth-role-field" class="hidden mb-4"><label class="block text-xs font-bold text-gray-500 mb-2">Hesap rolü</label><select id="auth-role" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-400"><option>Danışan</option><option>Danışman</option></select></div>
+            <button id="auth-submit" onclick="submitAuth()" class="w-full bg-gray-900 text-white font-bold py-3 rounded-xl hover:bg-gray-800 transition cursor-pointer">Devam Et</button>
+            <button onclick="showForgotPassword()" class="w-full text-xs font-bold text-gray-500 hover:text-brand-700 mt-4">Şifremi unuttum</button>
+            <p id="auth-feedback" class="text-xs text-center mt-3 min-h-4"></p>
         </div>
     </div>
+
+    <div id="payment-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm p-4">
+        <div class="bg-white rounded-2xl p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto relative shadow-2xl">
+            <button onclick="closeModal('payment-modal')" class="absolute top-4 right-4 text-gray-400 text-2xl">&times;</button>
+            <p class="text-xs font-bold uppercase tracking-wider text-brand-600">Güvenli ödeme</p><h2 class="text-2xl font-bold text-gray-900 mt-1 mb-5">Randevuyu kesinleştir</h2>
+            <div id="payment-summary" class="bg-gray-50 rounded-xl p-4 text-sm mb-5"></div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><input id="card-name" placeholder="Kart üzerindeki ad" class="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm"><input id="card-number" placeholder="Kart numarası" inputmode="numeric" class="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm"><input id="card-expiry" placeholder="AA / YY" class="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm"><input id="card-cvc" placeholder="CVC" class="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm"></div>
+            <div class="flex items-center justify-between text-xs text-gray-500 mt-5"><span>Platform komisyonu</span><span>₺25</span></div><div class="flex items-center justify-between font-bold mt-2"><span>Toplam</span><span id="payment-total">₺0</span></div>
+            <button onclick="completePayment()" class="w-full bg-brand-400 text-gray-900 font-bold py-3 rounded-xl mt-5 hover:bg-brand-500">Ödemeyi Tamamla</button><p id="payment-feedback" class="text-xs text-center mt-3 min-h-4"></p>
+        </div>
+    </div>
+
+    <div id="review-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm p-4"><div class="bg-white rounded-2xl p-6 max-w-md w-full relative shadow-2xl"><button onclick="closeModal('review-modal')" class="absolute top-4 right-4 text-gray-400 text-2xl">&times;</button><h2 class="text-xl font-bold mb-4">Görüşmeyi değerlendir</h2><div class="flex gap-2 mb-4" id="review-stars"></div><textarea id="review-text" rows="4" placeholder="Deneyiminizi paylaşın" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-sm"></textarea><button onclick="submitReview()" class="w-full bg-brand-400 font-bold py-3 rounded-xl mt-4">Değerlendirmeyi Gönder</button><p id="review-feedback" class="text-xs text-center mt-3"></p></div></div>
+
+    <div id="application-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm p-4"><div class="bg-white rounded-2xl p-6 max-w-lg w-full relative shadow-2xl"><button onclick="closeModal('application-modal')" class="absolute top-4 right-4 text-gray-400 text-2xl">&times;</button><h2 class="text-xl font-bold mb-1">Danışman başvurusu</h2><p class="text-xs text-gray-500 mb-5">Profiliniz incelendikten sonra doğrulama durumu güncellenir.</p><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><input id="application-university" placeholder="Üniversite" class="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm"><input id="application-department" placeholder="Bölüm" class="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm"><input id="application-class" placeholder="Sınıf / mezuniyet" class="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm"><select id="application-status" class="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm"><option>Öğrenci</option><option>Mezun</option></select></div><label class="block text-xs font-bold text-gray-500 mt-4 mb-2">Öğrenci belgesi</label><input id="application-document" type="file" class="w-full text-sm"><button onclick="submitApplication()" class="w-full bg-brand-400 font-bold py-3 rounded-xl mt-5">Başvuruyu Gönder</button><p id="application-feedback" class="text-xs text-center mt-3"></p></div></div>
+
+    <div id="notifications-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm p-4"><div class="bg-white rounded-2xl p-6 max-w-md w-full relative shadow-2xl"><button onclick="closeModal('notifications-modal')" class="absolute top-4 right-4 text-gray-400 text-2xl">&times;</button><h2 class="text-xl font-bold mb-4">Bildirimler</h2><div class="space-y-3 text-sm"><div class="p-3 bg-brand-50 rounded-xl">Randevu talebiniz danışman tarafından onaylandı.</div><div class="p-3 bg-gray-50 rounded-xl">Tercih listenizdeki program için yeni yorum var.</div></div></div></div>
+    <div id="question-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center backdrop-blur-sm p-4"><div class="bg-white rounded-2xl p-6 max-w-lg w-full relative shadow-2xl"><button onclick="closeModal('question-modal')" class="absolute top-4 right-4 text-gray-400 text-2xl">&times;</button><h2 class="text-xl font-bold mb-4">Forumda soru sor</h2><input id="question-title" placeholder="Başlık" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm mb-3"><textarea id="question-body" rows="5" placeholder="Sorunuzu yazın" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-sm"></textarea><button onclick="submitQuestion()" class="w-full bg-brand-400 font-bold py-3 rounded-xl mt-4">Soruyu Yayınla</button><p id="question-feedback" class="text-xs text-center mt-3"></p></div></div>
 
     <script>
         const firstNames = ["Ahmet", "Ayşe", "Mehmet", "Fatma", "Can", "Zeynep", "Ali", "Elif", "Burak", "Cemre", "Deniz", "Ece", "Emre", "Gizem", "Kaan", "Melis", "Onur", "Selin", "Tolga", "Yaren"];
@@ -877,6 +931,7 @@
         let infoData = { uni: [], dept: [], dorm: [] };
         let infoProgramData = [];
         let activeInfoCategories = ['uni'];
+        let favoriteConsultants = JSON.parse(localStorage.getItem('karar-noktasi-favorites') || '[]');
 
         function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
         function getRandomTags(sourceTags, count) {
@@ -1020,6 +1075,8 @@
 
         window.onload = () => {
             history.replaceState({ viewId: 'view-home' }, '', '#view-home');
+            userAppointments = JSON.parse(localStorage.getItem('karar-noktasi-appointments') || '[]');
+            renderAdminApplications();
 
             const citySelect = document.getElementById('filter-city');
             if (citySelect) {
@@ -1347,7 +1404,7 @@
                 listContainer.innerHTML = `<div class="text-center py-8 text-gray-400 text-sm">Henüz tercih listenize eklenmiş bir program bulunmuyor. Sıralama tablosundan ekleme yapabilirsiniz.</div>`;
             } else {
                 listContainer.innerHTML = userPreferences.map((pref, idx) => `
-                    <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 flex items-center justify-between gap-4">
+                    <div draggable="true" ondragstart="dragPreference(${idx})" ondragover="event.preventDefault()" ondrop="dropPreference(${idx})" class="bg-gray-50 p-4 rounded-2xl border border-gray-100 flex items-center justify-between gap-4 cursor-move">
                         <div>
                             <span class="text-[10px] font-bold text-brand-600 uppercase tracking-wider">Tercih #${idx + 1}</span>
                             <h4 class="font-bold text-gray-900 text-sm mt-0.5">${pref.uni}</h4>
@@ -1364,6 +1421,19 @@
             userPreferences = userPreferences.filter(p => !(p.uni === uni && p.dept === dept));
             openPreferenceListModal();
             showToast("Program tercih listenizden kaldırıldı.");
+        }
+
+        function dragPreference(index) {
+            window.draggedPreferenceIndex = index;
+        }
+
+        function dropPreference(targetIndex) {
+            if (window.draggedPreferenceIndex === undefined || window.draggedPreferenceIndex === targetIndex) return;
+            const [moved] = userPreferences.splice(window.draggedPreferenceIndex, 1);
+            userPreferences.splice(targetIndex, 0, moved);
+            window.draggedPreferenceIndex = undefined;
+            openPreferenceListModal();
+            showToast('Tercih sıralamanız güncellendi.');
         }
 
         function showToast(message) {
@@ -1513,8 +1583,21 @@
                         </div>
                     </div>
                     <p class="text-sm text-gray-600 leading-relaxed">"${c.text}"</p>
+                    <div class="flex items-center gap-4 pt-3 border-t border-gray-100"><button onclick="likeComment(${c.id})" class="text-xs font-bold text-gray-500 hover:text-brand-700">♡ Beğen (${c.likes || 0})</button><button onclick="replyToComment(${c.id})" class="text-xs font-bold text-gray-500 hover:text-brand-700">Yanıtla</button></div>
                 </div>
             `).join('');
+        }
+
+        function likeComment(id) {
+            const comment = mockComments.find(item => item.id === id);
+            if (!comment) return;
+            comment.likes = (comment.likes || 0) + 1;
+            renderComments(mockComments);
+        }
+
+        function replyToComment(id) {
+            const reply = prompt('Yanıtınızı yazın:');
+            if (reply && reply.trim()) showToast('Yanıtınız gönderildi.');
         }
 
         function renderForumTopics(data) {
@@ -1702,6 +1785,7 @@
         }
 
         function applyFilters() {
+            const search = (document.getElementById('consultant-search')?.value || '').toLowerCase();
             const fUni = document.getElementById('filter-uni').value.toLowerCase();
             const fDept = document.getElementById('filter-dept').value.toLowerCase();
             const fCity = document.getElementById('filter-city').value;
@@ -1716,6 +1800,7 @@
             const selectedTags = Array.from(document.querySelectorAll('.tag-checkbox:checked')).map(cb => cb.value);
 
             let filtered = currentDataList.filter(item => {
+                if (search && !`${item.n} ${item.u} ${item.d} ${item.city}`.toLowerCase().includes(search)) return false;
                 if (fUni && !item.u.toLowerCase().includes(fUni)) return false;
                 if (fDept && !item.d.toLowerCase().includes(fDept)) return false;
                 if (fCity && item.city !== fCity) return false;
@@ -1773,12 +1858,20 @@
                     <div class="flex items-center gap-3 mb-4 text-xs text-gray-500">
                         <div>${item.city}</div>
                         <div class="text-yellow-600 font-bold">${item.rating}</div>
-                        <div>${item.avail}</div>
+                        <div>${item.avail}</div><div class="text-gray-400">Son görülme: bugün</div>
                     </div>
-                    <div class="flex flex-wrap gap-1 mt-auto">${tagsHtml}</div>
+                    <div class="flex items-center justify-between gap-2 mt-auto"><div class="flex flex-wrap gap-1">${tagsHtml}</div><button onclick="toggleFavorite(event, '${item.id}')" aria-label="Favoriye ekle" class="text-lg ${favoriteConsultants.includes(item.id) ? 'text-red-500' : 'text-gray-300'} hover:text-red-500">♥</button></div>
                 `;
                 grid.appendChild(card);
             });
+        }
+
+        function toggleFavorite(event, id) {
+            event.stopPropagation();
+            favoriteConsultants = favoriteConsultants.includes(id) ? favoriteConsultants.filter(itemId => itemId !== id) : [...favoriteConsultants, id];
+            localStorage.setItem('karar-noktasi-favorites', JSON.stringify(favoriteConsultants));
+            applyFilters();
+            showToast(favoriteConsultants.includes(id) ? 'Danışman favorilere eklendi.' : 'Danışman favorilerden çıkarıldı.');
         }
 
         let currentProfile = null;
@@ -1819,16 +1912,29 @@
                 alert("Lütfen randevu için bir zaman aralığı seçin.");
                 return;
             }
-            userAppointments.push({
-                id: Date.now(),
-                consultantName: currentProfile.n,
-                consultantEdu: currentProfile.u + " - " + currentProfile.d,
-                img: currentProfile.img,
-                time: selectedSlotTime,
-                price: currentProfile.price,
-                status: "Onaylandı"
-            });
-            showToast("Randevunuz başarı ile oluşturuldu!");
+            const total = currentProfile.price + 25;
+            document.getElementById('payment-summary').innerHTML = `<div class="flex justify-between"><span>Danışman</span><strong>${currentProfile.n}</strong></div><div class="flex justify-between mt-2"><span>Zaman</span><strong>${selectedSlotTime}</strong></div><div class="flex justify-between mt-2"><span>Görüşme süresi</span><strong>30 dakika</strong></div><div class="flex justify-between mt-2"><span>Hizmet bedeli</span><strong>₺${currentProfile.price}</strong></div>`;
+            document.getElementById('payment-total').innerText = `₺${total}`;
+            document.getElementById('payment-feedback').innerText = '';
+            window.pendingAppointment = { id: Date.now(), consultantName: currentProfile.n, consultantEdu: currentProfile.u + " - " + currentProfile.d, img: currentProfile.img, time: selectedSlotTime, price: currentProfile.price, status: "Ödeme bekliyor", meetingLink: "" };
+            showModal('payment-modal');
+        }
+
+        function completePayment() {
+            const cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
+            const feedback = document.getElementById('payment-feedback');
+            if (cardNumber.length < 12 || !document.getElementById('card-name').value || !document.getElementById('card-cvc').value) {
+                feedback.innerText = 'Lütfen kart bilgilerini eksiksiz doldurun.';
+                feedback.className = 'text-xs text-center mt-3 min-h-4 text-red-600';
+                return;
+            }
+            window.pendingAppointment.status = 'Onaylandı';
+            window.pendingAppointment.meetingLink = 'https://meet.google.com/karar-noktasi-demo';
+            userAppointments.push(window.pendingAppointment);
+            localStorage.setItem('karar-noktasi-appointments', JSON.stringify(userAppointments));
+            closeModal('payment-modal');
+            showToast('Ödeme başarılı, randevunuz onaylandı.');
+            openAppointmentsModal();
         }
 
         function openAppointmentsModal() {
@@ -1846,11 +1952,138 @@
                                 <p class="text-[11px] text-gray-500 mt-1">Zaman: <span class="font-bold">${app.time}</span></p>
                             </div>
                         </div>
-                        <span class="bg-green-100 text-green-700 text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap">${app.status}</span>
+                        <div class="flex flex-col items-end gap-2"><span class="${app.status === 'İptal edildi' ? 'bg-red-100 text-red-700' : app.status === 'Tamamlandı' ? 'bg-gray-200 text-gray-700' : 'bg-green-100 text-green-700'} text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap">${app.status}</span>${app.status === 'Onaylandı' ? `<a href="${app.meetingLink}" target="_blank" class="text-xs font-bold text-brand-700">Görüşmeye Katıl</a><button onclick="markAppointmentCompleted(${app.id})" class="text-xs font-bold text-gray-500">Tamamlandı işaretle</button><button onclick="cancelAppointment(${app.id})" class="text-xs font-bold text-red-500">İptal et</button>` : app.status === 'Tamamlandı' ? `<button onclick="openReviewModal(${app.id})" class="text-xs font-bold text-brand-700">Değerlendir</button>` : ''}</div>
                     </div>
                 `).join('');
             }
             showModal('appointments-modal');
+        }
+
+        function cancelAppointment(id) {
+            const appointment = userAppointments.find(item => item.id === id);
+            if (!appointment) return;
+            appointment.status = 'İptal edildi';
+            localStorage.setItem('karar-noktasi-appointments', JSON.stringify(userAppointments));
+            openAppointmentsModal();
+            showToast('Randevu iptal edildi.');
+        }
+
+        function markAppointmentCompleted(id) {
+            const appointment = userAppointments.find(item => item.id === id);
+            if (!appointment) return;
+            appointment.status = 'Tamamlandı';
+            localStorage.setItem('karar-noktasi-appointments', JSON.stringify(userAppointments));
+            openAppointmentsModal();
+            showToast('Görüşme tamamlandı olarak işaretlendi.');
+        }
+
+        function openReviewModal(id) {
+            window.reviewAppointmentId = id;
+            window.reviewRating = 0;
+            document.getElementById('review-stars').innerHTML = [1, 2, 3, 4, 5].map(star => `<button onclick="selectReviewRating(${star})" data-star="${star}" class="text-3xl text-gray-300 hover:text-yellow-400">★</button>`).join('');
+            document.getElementById('review-text').value = '';
+            showModal('review-modal');
+        }
+
+        function selectReviewRating(rating) {
+            window.reviewRating = rating;
+            document.querySelectorAll('#review-stars button').forEach(button => button.className = `text-3xl ${Number(button.dataset.star) <= rating ? 'text-yellow-400' : 'text-gray-300'} hover:text-yellow-400`);
+        }
+
+        function submitReview() {
+            const feedback = document.getElementById('review-feedback');
+            if (!window.reviewRating || !document.getElementById('review-text').value.trim()) {
+                feedback.innerText = 'Puan ve yorum alanı zorunludur.';
+                feedback.className = 'text-xs text-center mt-3 text-red-600';
+                return;
+            }
+            closeModal('review-modal');
+            showToast('Değerlendirmeniz yayınlandı.');
+            openAppointmentsModal();
+        }
+
+        function switchAuthMode(mode) {
+            const register = mode === 'register';
+            document.getElementById('auth-title').innerText = register ? 'Hesap Oluştur' : 'Giriş Yap';
+            document.getElementById('auth-name-field').classList.toggle('hidden', !register);
+            document.getElementById('auth-role-field').classList.toggle('hidden', !register);
+            document.getElementById('auth-submit').innerText = register ? 'Kayıt Ol' : 'Giriş Yap';
+            document.getElementById('auth-login-tab').className = register ? 'flex-1 py-2 rounded-lg text-xs font-bold text-gray-500' : 'flex-1 py-2 rounded-lg text-xs font-bold bg-white shadow-sm text-brand-700';
+            document.getElementById('auth-register-tab').className = register ? 'flex-1 py-2 rounded-lg text-xs font-bold bg-white shadow-sm text-brand-700' : 'flex-1 py-2 rounded-lg text-xs font-bold text-gray-500';
+            document.getElementById('auth-feedback').innerText = '';
+            window.authMode = mode;
+        }
+
+        function submitAuth() {
+            const feedback = document.getElementById('auth-feedback');
+            const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-password').value;
+            if (!email || password.length < 6 || (window.authMode === 'register' && !document.getElementById('auth-name').value)) {
+                feedback.innerText = 'Lütfen gerekli alanları doldurun. (Şifre en az 6 karakter olmalı.)';
+                feedback.className = 'text-xs text-center mt-3 min-h-4 text-red-600';
+                return;
+            }
+            localStorage.setItem('karar-noktasi-user', JSON.stringify({ email, role: document.getElementById('auth-role').value }));
+            closeModal('auth-modal');
+            showToast(window.authMode === 'register' ? 'Hesabınız oluşturuldu.' : 'Giriş başarılı.');
+        }
+
+        function showForgotPassword() {
+            document.getElementById('auth-feedback').innerText = 'Şifre yenileme bağlantısı e-posta adresinize gönderildi (demo).';
+            document.getElementById('auth-feedback').className = 'text-xs text-center mt-3 min-h-4 text-green-600';
+        }
+
+        function submitApplication() {
+            const university = document.getElementById('application-university').value;
+            const department = document.getElementById('application-department').value;
+            const documentFile = document.getElementById('application-document').files[0];
+            const feedback = document.getElementById('application-feedback');
+            if (!university || !department || !documentFile) {
+                feedback.innerText = 'Üniversite, bölüm ve belge alanları zorunludur.';
+                feedback.className = 'text-xs text-center mt-3 text-red-600';
+                return;
+            }
+            localStorage.setItem('karar-noktasi-application', JSON.stringify({ university, department, status: 'Onay bekliyor' }));
+            feedback.innerText = 'Başvurunuz alındı. Durum: Onay bekliyor.';
+            feedback.className = 'text-xs text-center mt-3 text-green-600';
+            renderAdminApplications();
+        }
+
+        function renderAdminApplications() {
+            const list = document.getElementById('admin-application-list');
+            if (!list) return;
+            const application = JSON.parse(localStorage.getItem('karar-noktasi-application') || 'null');
+            list.innerHTML = application ? `<div class="p-5 flex items-center justify-between gap-4"><div><p class="font-bold text-gray-900">Ahmet Demir</p><p class="text-xs text-gray-500">${application.university} • ${application.department}</p></div><div class="flex items-center gap-3"><span class="bg-yellow-100 text-yellow-700 px-2.5 py-1 rounded-full text-xs font-bold">${application.status}</span><button onclick="updateApplicationStatus('Onaylandı')" class="text-xs font-bold text-green-700">Onayla</button><button onclick="updateApplicationStatus('Reddedildi')" class="text-xs font-bold text-red-600">Reddet</button></div></div>` : '<div class="p-5 text-sm text-gray-500">Henüz başvuru bulunmuyor.</div>';
+        }
+
+        function updateApplicationStatus(status) {
+            const application = JSON.parse(localStorage.getItem('karar-noktasi-application') || 'null');
+            if (!application) return;
+            application.status = status;
+            localStorage.setItem('karar-noktasi-application', JSON.stringify(application));
+            renderAdminApplications();
+            showToast(`Başvuru durumu: ${status}`);
+        }
+
+        function openNotificationsModal() {
+            showModal('notifications-modal');
+            const count = document.getElementById('notification-count');
+            if (count) count.classList.add('hidden');
+        }
+
+        function submitQuestion() {
+            const title = document.getElementById('question-title').value.trim();
+            const body = document.getElementById('question-body').value.trim();
+            const feedback = document.getElementById('question-feedback');
+            if (!title || !body) {
+                feedback.innerText = 'Başlık ve soru alanları zorunludur.';
+                feedback.className = 'text-xs text-center mt-3 text-red-600';
+                return;
+            }
+            closeModal('question-modal');
+            document.getElementById('question-title').value = '';
+            document.getElementById('question-body').value = '';
+            showToast('Sorunuz forumda yayınlandı.');
         }
 
         function showModal(id) { document.getElementById(id).classList.remove('hidden'); }
