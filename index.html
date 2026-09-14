@@ -157,6 +157,14 @@
 
                 <!-- Right Profile / Avatar & Actions -->
                 <div class="flex items-center space-x-4">
+                    <div class="flex items-center gap-1">
+                        <button type="button" onclick="goBackView()" aria-label="Önceki sayfa" title="Önceki sayfa" class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition cursor-pointer">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                        </button>
+                        <button type="button" onclick="goForwardView()" aria-label="Sonraki sayfa" title="Sonraki sayfa" class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition cursor-pointer">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"></path></svg>
+                        </button>
+                    </div>
                     <button type="button" onclick="toggleMobileMenu()" aria-expanded="false" aria-controls="mobile-menu" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl border border-gray-200 text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-brand-300" aria-label="Menüyü aç">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     </button>
@@ -211,20 +219,6 @@
             </div>
         </div>
     </nav>
-
-    <!-- Sayfa ici geri ve ileri tuslari -->
-    <div class="bg-white border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 overflow-x-auto">
-            <div class="flex items-center gap-2">
-                <button onclick="history.back()" aria-label="Geri" class="inline-flex items-center justify-center w-9 h-9 rounded-lg text-gray-600 hover:bg-gray-100 transition cursor-pointer" title="Geri">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                </button>
-                <button onclick="history.forward()" aria-label="İleri" class="inline-flex items-center justify-center w-9 h-9 rounded-lg text-gray-600 hover:bg-gray-100 transition cursor-pointer" title="İleri">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"></path></svg>
-                </button>
-            </div>
-        </div>
-    </div>
 
     <!-- Anasayfa (Landing) -->
     <div id="view-home" class="view-section block">
@@ -374,11 +368,6 @@
 
     <!-- Bilgilendirme Tam Ekran Detay Görünümü -->
     <div id="view-info-detail" class="view-section hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-        <button onclick="showView('view-info')" class="text-sm font-medium text-gray-500 hover:text-brand-600 mb-6 flex items-center cursor-pointer">
-            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-            Bilgilendirme Rehberine Dön
-        </button>
-
         <div id="info-detail-container" class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
             <!-- Dinamik Tam Ekran Detay İçeriği -->
         </div>
@@ -491,11 +480,6 @@
 
     <!-- Profile Detail View -->
     <div id="view-profile" class="view-section hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-        <button onclick="showView('view-consultants')" class="text-sm font-medium text-gray-500 hover:text-brand-600 mb-6 flex items-center cursor-pointer">
-            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-            Danışmanlara Dön
-        </button>
-        
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div class="lg:col-span-2 space-y-6">
                 <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
@@ -781,7 +765,6 @@
                 <h1 class="text-2xl font-bold text-gray-900">Profil ve Hesap Yönetimi</h1>
                 <p class="text-sm text-gray-500">Kişisel bilgilerinizi, hakkınızda yazısını ve platformdaki özelliklerinizi görüntüleyin ve düzenleyin.</p>
             </div>
-            <button onclick="showView('view-home')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2.5 rounded-xl text-sm font-bold transition cursor-pointer">Anasayfaya Dön</button>
         </div>
 
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 space-y-6">
@@ -1036,6 +1019,8 @@
         initInfoData();
 
         window.onload = () => {
+            history.replaceState({ viewId: 'view-home' }, '', '#view-home');
+
             const citySelect = document.getElementById('filter-city');
             if (citySelect) {
                 citySelect.innerHTML = `<option value="">Tüm Şehirler</option>` + cities.sort().map(city => `<option value="${city}">${city}</option>`).join('');
@@ -1048,6 +1033,10 @@
             switchInfoCategory('uni');
             filterCategory('university');
         }
+
+        window.addEventListener('popstate', event => {
+            showView(event.state && event.state.viewId ? event.state.viewId : 'view-home', false);
+        });
 
         function initInfoData() {
             const uniImages = {
@@ -1584,16 +1573,25 @@
             showModal('forum-detail-modal');
         }
 
-        function showView(viewId) {
+        function showView(viewId, addToHistory = true) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
             const targetView = document.getElementById(viewId);
             if (targetView) {
                 targetView.classList.remove('hidden');
+                if (addToHistory) history.pushState({ viewId }, '', `#${viewId}`);
                 window.scrollTo(0, 0);
             } else {
                 document.getElementById('view-home').classList.remove('hidden');
             }
             closeMobileMenu();
+        }
+
+        function goBackView() {
+            history.back();
+        }
+
+        function goForwardView() {
+            history.forward();
         }
 
         function toggleMobileMenu() {
