@@ -607,6 +607,9 @@
                     </select>
                 </div>
             </div>
+            <div class="mt-4 flex justify-end">
+                <button onclick="resetCommentFilters()" class="text-xs font-bold text-gray-500 hover:text-brand-700 border border-gray-200 hover:border-brand-300 rounded-xl px-4 py-2 transition cursor-pointer">Filtreleri Temizle</button>
+            </div>
         </div>
         <div id="comments-container" class="space-y-4"></div>
     </div>
@@ -672,6 +675,9 @@
                         <option value="">Tümü</option>
                     </select>
                 </div>
+            </div>
+            <div class="mt-4 flex justify-end">
+                <button onclick="resetForumFilters()" class="text-xs font-bold text-gray-500 hover:text-brand-700 border border-gray-200 hover:border-brand-300 rounded-xl px-4 py-2 transition cursor-pointer">Filtreleri Temizle</button>
             </div>
         </div>
         <div id="forum-container" class="space-y-4"></div>
@@ -1395,10 +1401,97 @@
         }
 
         function applyCommentFilters() {
-            renderComments(mockComments);
+            const uni = document.getElementById('comment-filter-uni').value;
+            const dept = document.getElementById('comment-filter-dept').value;
+            const city = document.getElementById('comment-filter-city').value;
+            const studentClass = document.getElementById('comment-filter-class').value;
+            const dorm = document.getElementById('comment-filter-dorm').value;
+            const dormName = document.getElementById('comment-filter-kyk-name').value;
+            const sort = document.getElementById('comment-sort-select').value;
+
+            const filtered = mockComments.filter(comment => {
+                if (uni && comment.uni !== uni) return false;
+                if (dept && comment.dept !== dept) return false;
+                if (city && comment.city !== city) return false;
+                if (studentClass && comment.studentClass !== studentClass) return false;
+                if (dorm && comment.dormType !== dorm) return false;
+                if (dormName && comment.dormDetail !== dormName) return false;
+                return true;
+            }).sort((first, second) => {
+                if (sort === 'votes-desc') return second.voteCount - first.voteCount;
+                if (sort === 'name-asc') return first.name.localeCompare(second.name, 'tr');
+                return parseFloat(second.rating) - parseFloat(first.rating);
+            });
+
+            renderComments(filtered);
         }
+
+        function toggleKykDropdown() {
+            const dormType = document.getElementById('comment-filter-dorm').value;
+            const container = document.getElementById('kyk-sub-container');
+            const select = document.getElementById('comment-filter-kyk-name');
+            if (!container || !select) return;
+            container.classList.toggle('hidden', dormType !== 'KYK');
+            if (dormType === 'KYK' && select.options.length === 1) {
+                select.innerHTML = '<option value="">Tümü</option>' + kykDorms.map(dorm => `<option value="${dorm}">${dorm}</option>`).join('');
+            }
+            if (dormType !== 'KYK') select.value = '';
+        }
+
+        function resetCommentFilters() {
+            ['comment-filter-uni', 'comment-filter-dept', 'comment-filter-city', 'comment-filter-class', 'comment-filter-dorm', 'comment-filter-kyk-name'].forEach(id => {
+                const field = document.getElementById(id);
+                if (field) field.value = '';
+            });
+            document.getElementById('comment-sort-select').value = 'rating-desc';
+            toggleKykDropdown();
+            applyCommentFilters();
+        }
+
         function applyForumFilters() {
-            renderForumTopics(mockForumTopics);
+            const uni = document.getElementById('forum-filter-uni').value;
+            const dept = document.getElementById('forum-filter-dept').value;
+            const city = document.getElementById('forum-filter-city').value;
+            const studentClass = document.getElementById('forum-filter-class').value;
+            const dorm = document.getElementById('forum-filter-dorm').value;
+            const dormName = document.getElementById('forum-filter-kyk-name').value;
+            const sort = document.getElementById('forum-sort-select').value;
+
+            const filtered = mockForumTopics.filter(topic => {
+                if (uni && topic.uni !== uni) return false;
+                if (dept && topic.dept !== dept) return false;
+                if (city && topic.city !== city) return false;
+                if (studentClass && topic.studentClass !== studentClass) return false;
+                if (dorm && topic.dormType !== dorm) return false;
+                if (dormName && topic.dormDetail !== dormName) return false;
+                return true;
+            }).sort((first, second) => sort === 'rating-desc'
+                ? second.rating - first.rating
+                : second.repliesCount - first.repliesCount);
+
+            renderForumTopics(filtered);
+        }
+
+        function toggleForumKykDropdown() {
+            const dormType = document.getElementById('forum-filter-dorm').value;
+            const container = document.getElementById('forum-kyk-sub-container');
+            const select = document.getElementById('forum-filter-kyk-name');
+            if (!container || !select) return;
+            container.classList.toggle('hidden', dormType !== 'KYK');
+            if (dormType === 'KYK' && select.options.length === 1) {
+                select.innerHTML = '<option value="">Tümü</option>' + kykDorms.map(dorm => `<option value="${dorm}">${dorm}</option>`).join('');
+            }
+            if (dormType !== 'KYK') select.value = '';
+        }
+
+        function resetForumFilters() {
+            ['forum-filter-uni', 'forum-filter-dept', 'forum-filter-city', 'forum-filter-class', 'forum-filter-dorm', 'forum-filter-kyk-name'].forEach(id => {
+                const field = document.getElementById(id);
+                if (field) field.value = '';
+            });
+            document.getElementById('forum-sort-select').value = 'votes-desc';
+            toggleForumKykDropdown();
+            applyForumFilters();
         }
 
         function renderComments(data) {
