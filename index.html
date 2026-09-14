@@ -125,6 +125,11 @@
                     </span>
                     <div class="hidden md:flex space-x-6 text-sm font-medium">
                         <button onclick="showView('view-home')" class="text-gray-600 hover:text-brand-600 cursor-pointer transition">Anasayfa</button>
+                        <button onclick="switchCategoryAndNav('university')" class="text-gray-600 hover:text-brand-600 cursor-pointer transition">Danışmanlar</button>
+                        <button onclick="showView('view-info')" class="text-gray-600 hover:text-brand-600 cursor-pointer transition">Bilgilendirme</button>
+                        <button onclick="showView('view-comments')" class="text-gray-600 hover:text-brand-600 cursor-pointer transition">Yorumlar</button>
+                        <button onclick="showView('view-forum')" class="text-gray-600 hover:text-brand-600 cursor-pointer transition">Forum</button>
+                        <button onclick="showView('view-rankings')" class="text-gray-600 hover:text-brand-600 cursor-pointer transition">Sıralamalar</button>
                         
                         <!-- Danışmanlar Dropdown -->
                         <div class="relative group py-5">
@@ -157,6 +162,7 @@
 
                 <!-- Right Profile / Avatar & Actions -->
                 <div class="flex items-center space-x-4">
+                    <button onclick="showModal('auth-modal')" class="hidden sm:inline-flex bg-gray-900 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-gray-700 transition cursor-pointer">Giriş Yap</button>
                     <button type="button" onclick="toggleMobileMenu()" aria-expanded="false" aria-controls="mobile-menu" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl border border-gray-200 text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-brand-300" aria-label="Menüyü aç">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     </button>
@@ -182,6 +188,15 @@
             <div id="mobile-menu" class="mobile-menu-panel md:hidden border-t border-gray-100 pb-3">
                 <div class="space-y-2 pt-3">
                     <button onclick="showView('view-home');" class="mobile-section-button">Anasayfa</button>
+                    <button onclick="switchCategoryAndNav('university');" class="mobile-section-button">Danışmanlar</button>
+                    <button onclick="showView('view-info');" class="mobile-section-button">Bilgilendirme</button>
+                    <button onclick="showView('view-comments');" class="mobile-section-button">Yorumlar</button>
+                    <button onclick="showView('view-forum');" class="mobile-section-button">Forum</button>
+                    <button onclick="showView('view-rankings');" class="mobile-section-button">Sıralamalar</button>
+                    <button onclick="showView('view-user-profile');" class="mobile-section-button">Profil İşlemleri</button>
+                    <button onclick="openAppointmentsModal();" class="mobile-section-button">Randevularım</button>
+                    <button onclick="openPreferenceListModal();" class="mobile-section-button">Tercih Listem</button>
+                    <button onclick="showModal('auth-modal');" class="mobile-section-button text-red-600">Giriş Yap</button>
 
                     <div>
                         <button onclick="toggleMobileSubmenu('mobile-consultants-submenu', this)" class="mobile-section-button" aria-expanded="false">
