@@ -173,7 +173,7 @@
                             <span class="text-sm font-bold text-gray-800 hidden sm:inline">Ahmet Demir</span>
                             <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="w-10 h-10 rounded-full border-2 border-brand-400 object-cover shadow-sm cursor-pointer" title="Kullanıcı menüsü">
                         </button>
-                        <div id="profile-menu" class="absolute right-0 top-14 w-52 bg-white border border-gray-200 rounded-xl shadow-lg hidden group-hover:block p-2 z-50">
+                        <div id="profile-menu" class="absolute right-0 top-14 w-52 bg-white border border-gray-200 rounded-xl shadow-lg hidden p-2 z-50">
                             <div class="px-4 py-2 border-b border-gray-100">
                                 <p class="text-xs font-bold text-gray-900">Ahmet Demir</p>
                                 <p class="text-[10px] text-gray-500">Öğrenci / Danışan</p>
@@ -1674,6 +1674,20 @@
             if (menu) menu.classList.toggle('hidden');
         }
 
+        document.addEventListener('click', event => {
+            const profileMenu = document.getElementById('profile-menu');
+            const profileWrapper = profileMenu ? profileMenu.closest('.relative.group') : null;
+            if (profileMenu && profileWrapper && !profileWrapper.contains(event.target)) {
+                profileMenu.classList.add('hidden');
+            }
+
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuButton = document.querySelector('[aria-controls="mobile-menu"]');
+            if (mobileMenu && mobileMenu.classList.contains('is-open') && !mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+                closeMobileMenu();
+            }
+        });
+
         function goBackView() {
             history.back();
         }
@@ -1695,6 +1709,17 @@
         function toggleMobileSubmenu(submenuId, button) {
             const submenu = document.getElementById(submenuId);
             if (!submenu) return;
+
+            document.querySelectorAll('.mobile-submenu').forEach(otherSubmenu => {
+                if (otherSubmenu.id !== submenuId) otherSubmenu.classList.remove('is-open');
+            });
+            document.querySelectorAll('.mobile-section-button[aria-expanded="true"]').forEach(otherButton => {
+                if (otherButton !== button) {
+                    otherButton.setAttribute('aria-expanded', 'false');
+                    const otherChevron = otherButton.querySelector('.mobile-chevron');
+                    if (otherChevron) otherChevron.classList.remove('rotate-180');
+                }
+            });
 
             const isOpen = submenu.classList.toggle('is-open');
             button.setAttribute('aria-expanded', String(isOpen));
