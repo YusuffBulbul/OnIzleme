@@ -212,17 +212,16 @@
         </div>
     </nav>
 
-    <!-- Sayfa ici hizli gecisler -->
+    <!-- Sayfa ici geri ve ileri tuslari -->
     <div class="bg-white border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 overflow-x-auto">
-            <div class="flex items-center gap-2 min-w-max">
-                <span class="text-xs font-bold uppercase tracking-wider text-gray-400 mr-2">Hızlı Geçiş</span>
-                <button onclick="showView('view-home')" class="px-3 py-2 rounded-lg text-xs font-bold text-gray-600 hover:bg-brand-50 hover:text-brand-700 transition cursor-pointer">Anasayfa</button>
-                <button onclick="switchCategoryAndNav('university')" class="px-3 py-2 rounded-lg text-xs font-bold text-gray-600 hover:bg-brand-50 hover:text-brand-700 transition cursor-pointer">Danışmanlar</button>
-                <button onclick="showView('view-info')" class="px-3 py-2 rounded-lg text-xs font-bold text-gray-600 hover:bg-brand-50 hover:text-brand-700 transition cursor-pointer">Bilgilendirme</button>
-                <button onclick="showView('view-comments')" class="px-3 py-2 rounded-lg text-xs font-bold text-gray-600 hover:bg-brand-50 hover:text-brand-700 transition cursor-pointer">Yorumlar</button>
-                <button onclick="showView('view-forum')" class="px-3 py-2 rounded-lg text-xs font-bold text-gray-600 hover:bg-brand-50 hover:text-brand-700 transition cursor-pointer">Forum</button>
-                <button onclick="showView('view-rankings')" class="px-3 py-2 rounded-lg text-xs font-bold text-gray-600 hover:bg-brand-50 hover:text-brand-700 transition cursor-pointer">Sıralamalar</button>
+            <div class="flex items-center gap-2">
+                <button onclick="history.back()" aria-label="Geri" class="inline-flex items-center justify-center w-9 h-9 rounded-lg text-gray-600 hover:bg-gray-100 transition cursor-pointer" title="Geri">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <button onclick="history.forward()" aria-label="İleri" class="inline-flex items-center justify-center w-9 h-9 rounded-lg text-gray-600 hover:bg-gray-100 transition cursor-pointer" title="İleri">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"></path></svg>
+                </button>
             </div>
         </div>
     </div>
