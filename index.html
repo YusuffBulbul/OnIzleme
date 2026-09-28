@@ -124,7 +124,7 @@
                         Karar Noktası
                     </span>
                     <div class="hidden md:flex space-x-6 text-sm font-medium">
-                        <button onclick="showView('view-home')" class="text-gray-600 hover:text-brand-600 cursor-pointer transition">Anasayfa</button>
+                        
                         
                         <!-- Danışmanlar Dropdown -->
                         <div class="relative group py-5">
@@ -152,6 +152,7 @@
                                 <button onclick="showView('view-rankings')" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brand-50 rounded-lg font-medium cursor-pointer">Sıralama Tablosu</button>
                             </div>
                         </div>
+                        <button onclick="showView('view-ai')" class="text-brand-700 hover:text-brand-600 cursor-pointer transition font-bold">AI Asistan</button>
                     </div>
                 </div>
 
@@ -192,7 +193,7 @@
             </div>
             <div id="mobile-menu" class="mobile-menu-panel md:hidden border-t border-gray-100 pb-3">
                 <div class="space-y-2 pt-3">
-                    <button onclick="showView('view-home');" class="mobile-section-button">Anasayfa</button>
+                    
 
                     <div>
                         <button onclick="toggleMobileSubmenu('mobile-consultants-submenu', this)" class="mobile-section-button" aria-expanded="false">
@@ -218,13 +219,42 @@
                             <button onclick="showView('view-rankings');" class="mobile-nav-link">Sıralama Tablosu</button>
                         </div>
                     </div>
+                    <button onclick="showView('view-ai')" class="mobile-section-button">AI Asistan</button>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- Anasayfa (Landing) -->
-    <div id="view-home" class="view-section block">
+    
+<section id="view-ai" class="view-section hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+ <span class="inline-block bg-brand-100 text-brand-700 text-xs font-bold px-3 py-1 rounded-full mb-3">AI Asistan · Ön izleme</span>
+ <h1 class="text-3xl font-bold text-gray-900 mb-6">Hedefini anlat, seçeneklerini keşfet</h1>
+ <div class="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
+  <div class="p-5 sm:p-8 border-b border-gray-100">
+   <p class="font-bold">Merhaba! Tercih yolculuğunda sana nasıl yardımcı olabilirim?</p>
+   <div class="flex flex-wrap gap-2 mt-4">
+    <button onclick="setAiExample('Sayısalda 35 bin sıralamam var. Ankara’da bilgisayar mühendisliği okumak istiyorum.')" class="text-left text-sm bg-brand-50 border border-brand-200 rounded-xl px-4 py-3 hover:bg-brand-100">Bölüm ve üniversite keşfet</button>
+    <button onclick="setAiExample('İşletme bölümünü düşünüyorum. Bu bölümde okuyan bir danışmanla görüşmek istiyorum.')" class="text-left text-sm bg-brand-50 border border-brand-200 rounded-xl px-4 py-3 hover:bg-brand-100">Bana uygun danışmanı bul</button>
+   </div>
+  </div>
+  <div id="ai-conversation" class="p-5 sm:p-8 space-y-5" aria-live="polite"><p class="text-sm text-gray-500">Hedefini paylaş → programları keşfet → ilgili danışmanla görüş.</p></div>
+  <form onsubmit="submitAiDemo(event)" class="p-5 sm:p-8 bg-gray-50 border-t border-gray-100">
+   <label for="ai-message" class="block text-sm font-bold mb-2">Hedefin ve tercihlerin</label>
+   <textarea id="ai-message" rows="3" maxlength="1500" required placeholder="Örn. Sayısalda 35 bin sıralamam var. Ankara’da mühendislik düşünüyorum…" class="w-full bg-white border border-gray-300 rounded-xl p-4 text-sm focus:outline-none focus:ring-2 focus:ring-brand-400"></textarea>
+   <div class="flex flex-col sm:flex-row gap-3 sm:items-center justify-between mt-3">
+    <p class="text-xs text-gray-500 max-w-xl">Örnek verilerle çalışan demodur; gerçek AI veya yerleşme uygunluğu analizi yapmaz. Sıralama ve şehir koşulları bu demoda değerlendirilmez.</p>
+    <button type="submit" class="shrink-0 bg-brand-400 hover:bg-brand-500 font-bold px-6 py-3 rounded-xl">Önerileri göster</button>
+   </div>
+  </form>
+ </div>
+</section>
+<div id="view-home" class="view-section block">
+<div class="bg-white border-b border-brand-200"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div><p class="font-bold">Nereden başlayacağını bilmiyor musun?</p><p class="text-sm text-gray-600 mt-1">AI Asistan ile program önerilerini keşfet, ilgili danışmanlara ulaş.</p></div>
+<button onclick="showView('view-ai')" class="shrink-0 bg-brand-100 text-brand-700 hover:bg-brand-200 px-5 py-3 rounded-xl font-bold text-sm">AI Asistanı Keşfet · Demo</button>
+</div></div>
+
         <!-- Hero Section -->
         <div class="bg-brand-400">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
@@ -2134,5 +2164,61 @@
         function showModal(id) { document.getElementById(id).classList.remove('hidden'); }
         function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
     </script>
+
+<script>
+function setAiExample(message) {
+ const input = document.getElementById('ai-message');
+ input.value = message;
+ input.focus();
+}
+function submitAiDemo(event) {
+ event.preventDefault();
+ const message = document.getElementById('ai-message').value.trim();
+ if (!message) return;
+ document.getElementById('ai-message').value = '';
+ const container = document.getElementById('ai-conversation');
+ container.replaceChildren();
+ const element = (tag, text, cls) => {
+  const node = document.createElement(tag); node.textContent = text; node.className = cls; return node;
+ };
+ container.appendChild(element('p', message, 'bg-brand-50 rounded-xl p-4 text-sm whitespace-pre-wrap break-words'));
+ const normalize = text => text.toLocaleLowerCase('tr-TR').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/ı/g, 'i');
+ const tokens = normalize(message).split(/[^a-z0-9]+/).filter(word => word.length > 3);
+ const score = item => tokens.filter(word => normalize(item.uni + ' ' + item.dept).includes(word)).length;
+ const selected = [];
+ for (const program of [...infoProgramData].sort((a,b) => score(b)-score(a))) {
+  if (!selected.some(item => item.uni === program.uni)) selected.push(program);
+  if (selected.length === 3) break;
+ }
+ const grid = element('div', '', 'grid grid-cols-1 md:grid-cols-3 gap-4');
+ selected.forEach(program => {
+  const card = element('article', '', 'border border-gray-200 rounded-xl p-5 flex flex-col items-start gap-3');
+  card.appendChild(element('h2', program.uni + ' · ' + program.dept, 'font-bold text-gray-900'));
+  card.appendChild(element('p', score(program) ? 'Neden gösteriliyor? Mesajındaki bölüm veya üniversiteyle ilişkili sözcükler bu örnek programda geçiyor.' : 'Neden gösteriliyor? Program keşfini göstermek için seçilmiş bir örnek; kişisel uygunluk sonucu değildir.', 'text-sm text-gray-600 flex-1'));
+  const consultant = uniList.find(item => normalize(item.u).includes(normalize(program.uni)) && normalize(item.d) === normalize(program.dept));
+  const action = element('button', consultant ? consultant.n + ' · Danışmanı incele' : 'İlgili danışmanları ara', 'text-sm font-bold text-brand-700 bg-brand-50 hover:bg-brand-100 rounded-lg px-3 py-2 text-left');
+  action.type = 'button';
+  action.onclick = () => {
+   if (consultant) { openProfile(consultant); return; }
+   switchCategoryAndNav('university');
+   document.getElementById('consultant-search').value = '';
+   ['filter-uni','filter-dept','filter-city','filter-class','filter-lang','filter-availability','filter-price-min','filter-price-max'].forEach(id => document.getElementById(id).value = '');
+   document.getElementById('filter-rating').value = '0';
+   document.getElementById('rating-val').textContent = '0';
+   document.querySelectorAll('.tag-checkbox').forEach(box => box.checked = false);
+   const uni = document.getElementById('filter-uni');
+   const dept = document.getElementById('filter-dept');
+   const u = Array.from(uni.options).find(option => option.value && normalize(option.value).includes(normalize(program.uni)));
+   const d = Array.from(dept.options).find(option => normalize(option.value) === normalize(program.dept));
+   if (u) uni.value = u.value;
+   if (d) dept.value = d.value;
+   applyFilters();
+  };
+  card.appendChild(action); grid.appendChild(card);
+ });
+ container.appendChild(grid);
+}
+</script>
+
 </body>
 </html>
